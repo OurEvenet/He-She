@@ -156,28 +156,73 @@ reminder at 20160 minutes — exactly fourteen days, and within Google's
 ## Images
 
 Nine placeholders are included, generated in the site palette at the right
-dimensions. To use real photographs:
+dimensions. They are there so the layout is finished before the photographs
+are, and they are meant to be replaced.
 
-1. Drop your files into `assets/img/`, keeping the same base names
-   (`hero.jpg`, `poruwa.jpg`, `lamp.jpg`, …)
-2. Regenerate the WebP versions, dimensions and blur placeholders:
+### Putting your own photographs in
 
-```
-python3 tools/make-images.py     # only if you want new placeholders
-python3 tools/sync-lqip.py       # writes width/height/lqip into wedding.json
-```
-
-The home-screen icons are separate, and only need regenerating if you want a
-different mark:
+Drop the originals — straight off the camera or the phone, any size, any
+orientation — into `assets/img/incoming/`, each named after the slot it
+belongs in, and run one command:
 
 ```
-python3 tools/make-icons.py      # writes assets/img/icon-*.png
+mkdir -p assets/img/incoming
+cp ~/Pictures/wedding/ceremony.jpg assets/img/incoming/poruwa.jpg
+python3 tools/import-photos.py
 ```
 
-`tools/sync-lqip.py` is the one that matters — it reads whatever is in
-`assets/img/` and updates the `images` block in the JSON. The recorded width and
-height are what keep the layout from shifting as photographs arrive, so do not
-edit them by hand.
+The slots are `hero`, `poruwa`, `lamp`, `hands`, `araliya`, `kandy`, `table`,
+`venue` and `og`. You do not need all nine at once — anything you leave out
+keeps the placeholder it has, and you can run the command again as more
+photographs arrive.
+
+For each one it will:
+
+- **turn it the right way up**, following the EXIF rotation a phone writes
+  rather than the order the pixels happen to be stored in;
+- **strip every scrap of metadata.** A phone photograph carries the GPS
+  coordinates of wherever it was taken, often somebody's house, and this site
+  is public. The written files are rebuilt from raw pixels, so nothing —
+  EXIF, GPS, camera serial, colour profile — survives the trip;
+- **resize to something a phone can download on hotel wifi**: 1800px for the
+  hero, 1600px for the venue, 1200px for the gallery, which is twice what any
+  of those frames is ever displayed at;
+- **write both the `.jpg` and the `.webp`**, which the page needs as a pair;
+- **record the real width, height and blur placeholder** in
+  `data/wedding.json`.
+
+Framing is left alone. The gallery reads each photograph's own aspect ratio
+out of the JSON and lays itself out around it, so there is no reason to crop
+what you framed — pass `--crop hero=4:5` if you want one anyway. The single
+exception is `og`, the social preview, which is cropped to exactly 1200×630
+because WhatsApp and the rest will otherwise crop it themselves, badly.
+
+iPhone HEIC files work with one extra package:
+
+```
+pip install pillow-heif
+```
+
+Without it they are named and skipped, rather than silently ignored.
+
+Afterwards, check that the alt text and captions still describe what is
+actually in the photographs. Alt text is read aloud to guests using a screen
+reader, and "brass oil lamp with the wick just lit" is worse than useless if
+the photograph is now of the cake.
+
+### The rest of the imagery
+
+```
+python3 tools/make-images.py     # regenerate the placeholders
+python3 tools/make-icons.py      # regenerate the home-screen icons
+python3 tools/sync-lqip.py       # push image metadata into wedding.json
+```
+
+`tools/sync-lqip.py` is the last step of both generators: it reads
+`assets/img/_lqip.json` and rewrites the `images` block in the JSON.
+`import-photos.py` runs it for you. The recorded width and height are what
+keep the layout from shifting as photographs arrive, so do not edit them by
+hand.
 
 Each photograph loads with a 20px blurred placeholder inlined in the JSON, and
 its real file is fetched only once it is within 500px of the viewport.
@@ -210,6 +255,7 @@ assets/js/modules/
   dock.js                     the thumb-reach action bar on a phone
   lightbox.js                 full-screen photographs
   share.js                    the system share sheet, or the clipboard
+tools/import-photos.py        real photographs in, web-sized files out
 tools/make-images.py          regenerates placeholder imagery
 tools/make-icons.py           regenerates the home-screen icons
 tools/sync-lqip.py            writes image metadata into the JSON
@@ -312,7 +358,8 @@ no dock, every folded answer opened for the printer and put back afterwards.
 - [ ] `rsvp.endpoint` set, and a test reply received
 - [ ] Real names, dates, times, venue and phone numbers in `wedding.json`
 - [ ] Editor shows nothing under "Worth checking"
-- [ ] Real photographs in `assets/img/`, then `python3 tools/sync-lqip.py`
+- [ ] Real photographs through `python3 tools/import-photos.py`, and the alt
+      text and captions updated to match what is in them
 - [ ] Opened it on an actual phone, and tapped the dock, a photograph and the form
 - [ ] `name` in `site.webmanifest` changed from the generic one
 - [ ] `calendar.organizerEmail` set to an address you actually read
