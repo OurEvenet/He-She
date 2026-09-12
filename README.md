@@ -34,6 +34,38 @@ python3 -m http.server 8000
 
 **Everything is in `data/wedding.json`.** You should not need to touch the HTML.
 
+### The editor
+
+Open `editor.html` for a form-based editor rather than hand-editing JSON:
+
+```
+python3 -m http.server 8000
+# then http://localhost:8000/editor.html
+```
+
+It loads the current `data/wedding.json`, gives every field a proper control —
+date pickers, colour picker, dropdowns of the actual image files, add/remove/
+reorder on every list — and hands back a file to drop into the repository. The
+loaded object is edited in place, so key order survives and the download stays
+diffable against what is already committed.
+
+Two things it does that hand-editing cannot:
+
+- **Shows you the real conversion.** Under each start time it prints what the
+  calendar will actually receive, e.g. `9.12 a.m. Asia/Colombo →
+  20270220T034200Z · runs 1h 33m`. It imports the site's own `dates.js` rather
+  than reimplementing the maths, so there is no second copy to drift.
+- **Checks the things that bite.** An event ending before it starts, duplicate
+  event identifiers, a gallery entry pointing at a missing file, a reply
+  deadline falling after the ceremony, a leave reminder set beyond Google's
+  28-day ceiling, a still-placeholder site URL, an unset form endpoint. These
+  appear at the top of the page and link to the field concerned.
+
+The editor is a build-time tool. It is harmless to publish — it is marked
+`noindex` and only ever writes to a download — but you can delete `editor.html`,
+`assets/css/editor.css` and `assets/js/editor.js` before going live if you would
+rather guests never stumble on it.
+
 | Key | What it controls |
 | --- | --- |
 | `meta` | Title, description, social preview, site URL, timezone |
@@ -149,13 +181,16 @@ its real file is fetched only once it is within 500px of the viewport.
 
 ```
 index.html                    frame only — no content
+editor.html                   form editor for wedding.json
 .nojekyll
 data/wedding.json             all content
 assets/css/tokens.css         palette, type scale, motion curves, @font-face
 assets/css/style.css
+assets/css/editor.css
 assets/fonts/                 Fraunces + Karla, self-hosted (OFL)
 assets/img/
 assets/js/main.js             boot
+assets/js/editor.js           the editor
 assets/js/modules/
   dates.js                    timezone conversion and formatting
   calendar.js                 ICS builder, Google links, Calendar API
@@ -198,6 +233,7 @@ block carrying the essential details.
 - [ ] `meta.url` set to the real address
 - [ ] `rsvp.endpoint` set, and a test reply received
 - [ ] Real names, dates, times, venue and phone numbers in `wedding.json`
+- [ ] Editor shows nothing under "Worth checking"
 - [ ] Real photographs in `assets/img/`, then `python3 tools/sync-lqip.py`
 - [ ] `calendar.organizerEmail` set to an address you actually read
 - [ ] Downloaded the `.ics` and opened it once, to confirm the alarms appear
