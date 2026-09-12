@@ -688,14 +688,43 @@ addEventListener("beforeunload", (e) => {
   if (!$("#dirty").hidden) e.preventDefault();
 });
 
-// Mark the section currently in view
+/* --- Sticky furniture -------------------------------------------------
+   The bar and the section strip are both sticky and both change height
+   with the width of the screen, so their real heights are measured and
+   handed to the CSS: one for where the strip sits, one for how far a
+   jump to a section has to clear. */
+function measureSticky() {
+  const bar = $(".bar");
+  const nav = $(".nav");
+  const root = document.documentElement;
+  const barH = bar?.offsetHeight || 0;
+  // Above 60rem the nav is a sidebar, not a strip sitting under the bar
+  const stacked = nav && getComputedStyle(nav).position === "sticky" &&
+    window.matchMedia("(max-width: 60rem)").matches;
+
+  root.style.setProperty("--bar-h", `${barH}px`);
+  root.style.setProperty("--sticky-h", `${barH + (stacked ? nav.offsetHeight : 0)}px`);
+}
+
+if (window.ResizeObserver) {
+  const ro = new ResizeObserver(measureSticky);
+  ro.observe(document.body);
+}
+addEventListener("resize", measureSticky, { passive: true });
+
+// Mark the section currently in view, and keep its chip on screen when the
+// sections are a sideways-scrolling strip rather than a sidebar.
 const spy = new IntersectionObserver(
   (entries) => {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
-      document.querySelectorAll(".nav a").forEach((a) =>
-        a.classList.toggle("is-current", a.getAttribute("href") === "#" + entry.target.id)
-      );
+      document.querySelectorAll(".nav a").forEach((a) => {
+        const current = a.getAttribute("href") === "#" + entry.target.id;
+        a.classList.toggle("is-current", current);
+        if (current && a.parentElement.scrollWidth > a.parentElement.clientWidth) {
+          a.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+        }
+      });
     }
   },
   { rootMargin: "-20% 0px -70%" }
@@ -709,6 +738,7 @@ async function boot() {
   if (!res.ok) throw new Error(`wedding.json returned ${res.status}`);
   adopt(await res.json(), "from data/wedding.json");
   observeSections();
+  measureSticky();
 }
 
 boot().catch((err) => {

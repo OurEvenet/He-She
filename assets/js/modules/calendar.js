@@ -165,18 +165,43 @@ export function buildICS(config, entries) {
   return lines.map(fold).join("\r\n") + "\r\n";
 }
 
-export function downloadICS(config, entries, filename) {
+/** wedding-file name built from the two names, safe on every filesystem. */
+export function icsFilename(config) {
+  const slug = `${config.couple.one.name}-${config.couple.two.name}-wedding`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  return `${slug || "wedding"}.ics`;
+}
+
+/**
+ * iOS Safari ignores the download attribute: the file silently does not
+ * arrive, which is worse than no button at all. Opening the blob in a tab
+ * instead hands the calendar straight to the system, which is what the
+ * guest wanted anyway.
+ */
+const isIOS = () =>
+  /iP(hone|ad|od)/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+export function downloadICS(config, entries, filename = icsFilename(config)) {
   const blob = new Blob([buildICS(config, entries)], {
     type: "text/calendar;charset=utf-8",
   });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 2000);
+
+  if (isIOS()) {
+    location.href = url;
+  } else {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
 
 /* --- 2. Google template links ------------------------------------ */

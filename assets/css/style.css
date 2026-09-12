@@ -24,7 +24,12 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  /* A tap should feel like a press, not like a grey box being painted on */
+  -webkit-tap-highlight-color: color-mix(in oklab, var(--brass) 22%, transparent);
 }
+
+/* Anchored jumps land clear of the top of the screen rather than flush */
+:target, section[id] { scroll-margin-top: 1.5rem; }
 
 img, picture, svg { display: block; max-width: 100%; }
 
@@ -153,7 +158,11 @@ section { position: relative; }
   min-height: 100svh;
   display: grid;
   align-content: end;
-  padding: var(--rail) var(--rail) clamp(2.5rem, 7vw, 5rem);
+  /* Side gutters come from .shell on the inner block, so a phone is not
+     padded twice; the top and foot clear the notch and home indicator. */
+  padding-block:
+    calc(var(--rail) + var(--safe-t))
+    calc(clamp(2.5rem, 7vw, 5rem) + var(--safe-b));
   background: var(--poruwa-lo);
   color: var(--on-dark);
   overflow: clip;
@@ -197,11 +206,14 @@ section { position: relative; }
   font-family: var(--display);
   font-weight: 400;
   font-variation-settings: "SOFT" 40, "WONK" 1, "opsz" 144;
-  font-size: clamp(3rem, 16vw, 13rem);
+  font-size: clamp(2.6rem, 15vw, 13rem);
   line-height: 0.88;
   letter-spacing: -0.035em;
   padding-left: 0.58em;
   margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+  /* A long name breaks rather than pushing the page sideways */
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 .names span { display: block; }
 
@@ -238,6 +250,16 @@ section { position: relative; }
   font-variation-settings: "SOFT" 80, "WONK" 0;
 }
 
+/* The two things a guest opens this page to do, within thumb reach of the
+   first screen rather than six scrolls down. */
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: clamp(1.5rem, 4vw, 2rem);
+}
+.hero__actions .btn { flex: 1 1 12rem; max-width: 18rem; }
+
 /* One orchestrated load sequence, and only here */
 .hero__inner > * {
   animation: rise 1s var(--ease-settle) backwards;
@@ -246,8 +268,19 @@ section { position: relative; }
 .names          { animation-delay: 0.3s; }
 .hero__meta     { animation-delay: 0.5s; }
 .hero__line     { animation-delay: 0.62s; }
+.hero__actions  { animation-delay: 0.74s; }
 @keyframes rise {
   from { opacity: 0; transform: translateY(1.1rem); }
+}
+
+/* A phone held sideways has about 380px of height to work with — the hero
+   stops insisting on a full screen and simply fits what it has. */
+@media (orientation: landscape) and (max-height: 32rem) {
+  .hero { min-height: auto; padding-block: calc(2.25rem + var(--safe-t)) 2.25rem; }
+  .names { font-size: clamp(2.4rem, 9vw, 5rem); }
+  .hero__eyebrow { font-size: var(--t--1); margin-bottom: 0.9rem; }
+  .hero__line { font-size: var(--t-0); margin-top: 0.9rem; }
+  .hero__actions { margin-top: 1.1rem; }
 }
 
 .hero__scroll {
@@ -289,6 +322,12 @@ section { position: relative; }
 .letter__paper h2 { margin-bottom: 1.2rem; }
 .letter__paper p { color: var(--ink-soft); }
 
+/* The tilt is a nice touch on a wide screen and a clipped corner on a
+   narrow one, where the paper runs the full width of the page. */
+@media (max-width: 46rem) {
+  .letter__paper { transform: none; }
+}
+
 .letter__sign {
   margin-top: 1.6rem;
   font-family: var(--display);
@@ -301,7 +340,9 @@ section { position: relative; }
 /* ===============================================================
    The day — a genuine sequence, so it gets sequence markers
    =============================================================== */
-.day { display: grid; gap: 0; }
+/* An ordered list, because the day genuinely is one — a screen reader
+   announces "3 items" and which one it is on. */
+.day { display: grid; gap: 0; list-style: none; padding: 0; }
 
 .slot {
   display: grid;
@@ -350,6 +391,23 @@ section { position: relative; }
   .slot__time small { display: inline; margin-left: 0.5rem; }
 }
 
+/* The calendar used to live behind the reply form. It is the second thing
+   most people want, so it also sits under the running order. */
+.day__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: clamp(1.5rem, 4vw, 2.25rem);
+}
+.day__actions .btn { flex: 1 1 13rem; }
+.day__note {
+  flex: 1 1 100%;
+  font-size: var(--t--1);
+  color: var(--ink-soft);
+  max-width: 44ch;
+}
+
 /* ===============================================================
    Gallery — deliberately off-grid
    =============================================================== */
@@ -393,8 +451,33 @@ section { position: relative; }
     grid-column: span 1;
     margin-top: 0;
   }
-  .gallery figure:nth-child(4n + 3) { grid-column: span 2; }
+  /* The scatter reads as craft at 1200px and as a mistake at 390px, where
+     every rotation costs a clipped corner. :nth-child(n) matches the same
+     specificity as the rotations above, so it beats them on source order
+     however many photographs the JSON carries. */
+  .gallery figure:nth-child(n) { transform: none; }
+  /* One full-width frame to open on, then pairs. A portrait crop at full
+     width would eat a whole screen, so the lead frame is cropped wide. */
+  .gallery figure:nth-child(6n + 1) { grid-column: span 2; }
+  .gallery figure:nth-child(6n + 1) .frame { aspect-ratio: 4 / 3; }
+  .gallery figcaption { max-width: none; }
 }
+
+/* Each photograph is a button: tap to open it full-screen, where it can
+   actually be looked at rather than squinted at two-up. */
+.gallery__open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.gallery__open .frame { transition: transform var(--dur-quick) var(--ease-out-soft); }
+@media (hover: hover) and (pointer: fine) {
+  .gallery__open:hover .frame { transform: scale(1.012); }
+}
+.gallery__open:focus-visible { outline-offset: 4px; }
 
 /* Blur-up frame. Aspect ratio comes from the JSON, so nothing shifts. */
 .frame {
@@ -459,6 +542,8 @@ section { position: relative; }
 .venue__notes p { color: var(--on-dark-soft); max-width: 46ch; font-size: var(--t--1); line-height: 1.6; }
 
 .venue__links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+/* Side by side where there is room, full width where there is not */
+.venue__links .btn { flex: 1 1 14rem; }
 
 /* Crop the venue photograph upright so it fills the column beside the text */
 @media (min-width: 58rem) {
@@ -471,32 +556,45 @@ section { position: relative; }
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
-  padding: 0.85rem 1.5rem;
+  min-height: var(--tap);          /* 44px, whatever the type does */
+  padding: 0.7rem 1.4rem;
   font-size: var(--t-0);
   font-weight: 600;
   letter-spacing: 0.005em;
+  text-align: center;
   text-decoration: none;
   border: 1px solid var(--brass);
   background: var(--brass);
   color: var(--poruwa-lo);
   cursor: pointer;
+  touch-action: manipulation;      /* no 300ms wait for a second tap */
   transition: background var(--dur-quick) var(--ease-out-soft),
               border-color var(--dur-quick) var(--ease-out-soft),
-              color var(--dur-quick) var(--ease-out-soft);
+              color var(--dur-quick) var(--ease-out-soft),
+              transform var(--dur-quick) var(--ease-out-soft);
 }
-.btn:hover { background: var(--brass-hi); border-color: var(--brass-hi); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+/* Hover is a pointer idea. On a touch screen it sticks after the tap and
+   leaves the button looking pressed, so it is asked for explicitly. */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { background: var(--brass-hi); border-color: var(--brass-hi); }
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
 .btn--quiet {
   background: transparent;
   color: inherit;
   border-color: color-mix(in oklab, currentColor 35%, transparent);
 }
-.btn--quiet:hover {
-  background: color-mix(in oklab, currentColor 8%, transparent);
-  border-color: currentColor;
+@media (hover: hover) and (pointer: fine) {
+  .btn--quiet:hover {
+    background: color-mix(in oklab, currentColor 8%, transparent);
+    border-color: currentColor;
+  }
 }
+.btn--quiet:active { background: color-mix(in oklab, currentColor 12%, transparent); }
 
 .btn svg { width: 1.05em; height: 1.05em; flex: none; }
 
@@ -540,33 +638,71 @@ section { position: relative; }
 .field select,
 .field textarea {
   width: 100%;
-  padding: 0.8rem 0.9rem;
+  min-height: var(--tap);
+  padding: 0.7rem 0.9rem;
+  /* Never below 16px: iOS zooms the whole page in on a smaller field and
+     leaves the guest scrolled sideways in the middle of the form. */
+  font-size: max(1rem, 16px);
   background: var(--shell-warm);
   border: 1px solid var(--shell-dim);
   border-radius: 0;
-  transition: border-color var(--dur-quick) var(--ease-out-soft);
+  transition: border-color var(--dur-quick) var(--ease-out-soft),
+              box-shadow var(--dur-quick) var(--ease-out-soft);
 }
 .field input:focus, .field select:focus, .field textarea:focus {
   border-color: var(--brass);
   outline-offset: 1px;
 }
-.field textarea { min-height: 6.5rem; resize: vertical; }
+.field textarea { min-height: 6.5rem; resize: vertical; line-height: 1.55; }
 
-.fieldset { border: 0; padding: 0; display: grid; gap: 0.45rem; }
-.choices { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+/* Native selects are a system control worth keeping — only the arrow is
+   ours, so the row lines up with the inputs above it. */
+.field select {
+  appearance: none;
+  padding-right: 2.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%233d4f49' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 0.75rem;
+}
+
+/* A field that failed validation says so at the field, not only at the
+   foot of the form where it may be off-screen on a phone. */
+.field[data-invalid] input,
+.field[data-invalid] textarea,
+.field[data-invalid] select { border-color: var(--alarm); }
+.field__error {
+  font-size: var(--t--1);
+  font-weight: 600;
+  color: var(--alarm);
+}
+
+.fieldset { border: 0; padding: 0; display: grid; gap: 0.45rem; min-width: 0; }
+.fieldset > legend { padding: 0; }   /* the browser's own 2px indent, undone */
+/* Stacked full-width rows on a phone, a segmented row once there is width */
+.choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.5rem;
+}
 
 /* Segmented radio group */
 .choice { position: relative; }
 .choice input {
-  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; cursor: pointer; margin: 0;
 }
 .choice span {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
   padding: 0.6rem 1.05rem;
   border: 1px solid var(--shell-dim);
   background: var(--shell-warm);
   font-size: var(--t--1);
   font-weight: 600;
+  text-align: center;
   transition: background var(--dur-quick) var(--ease-out-soft),
               border-color var(--dur-quick) var(--ease-out-soft),
               color var(--dur-quick) var(--ease-out-soft);
@@ -585,6 +721,10 @@ section { position: relative; }
 }
 .form__row { display: grid; gap: 1.4rem; }
 @media (min-width: 34rem) { .form__row { grid-template-columns: 1fr 1fr; } }
+
+/* The one button that matters is worth a thumb's width of screen */
+.form__submit .btn { width: 100%; }
+@media (min-width: 34rem) { .form__submit .btn { width: auto; min-width: 14rem; } }
 
 /* ===============================================================
    Confirmation + calendar handoff
@@ -610,6 +750,7 @@ section { position: relative; }
 .confirm__group { display: grid; gap: 0.75rem; }
 .confirm__group > p { font-size: var(--t--1); }
 .confirm__buttons { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.confirm__buttons .btn { flex: 1 1 13rem; }
 
 .confirm__rule {
   height: 1px;
@@ -646,8 +787,10 @@ section { position: relative; }
   justify-content: space-between;
   align-items: baseline;
   gap: 1.5rem;
+  min-height: var(--tap);
   padding-block: 1.15rem;
   cursor: pointer;
+  touch-action: manipulation;
   list-style: none;
   font-family: var(--display);
   font-size: var(--t-1);
@@ -677,7 +820,12 @@ section { position: relative; }
 .footer {
   background: var(--poruwa-lo);
   color: var(--on-dark-soft);
-  padding-block: clamp(3.5rem, 8vw, 6rem);
+  padding-block: clamp(3.5rem, 8vw, 6rem)
+                 calc(clamp(3.5rem, 8vw, 6rem) + var(--safe-b));
+}
+/* Room at the foot for the action dock, so it never covers a phone number */
+@media (max-width: 46rem) {
+  .footer { padding-bottom: calc(7rem + var(--safe-b)); }
 }
 .footer__grid { display: grid; gap: 2.5rem; }
 @media (min-width: 48rem) {
@@ -693,8 +841,149 @@ section { position: relative; }
 .footer__date { margin-top: 0.6rem; }
 
 .footer__contacts { display: grid; gap: 1rem; }
-.footer__contacts a { color: var(--on-dark); text-decoration-color: var(--brass); text-underline-offset: 3px; }
+/* A phone number is there to be called: the whole line is the target */
+.footer__contacts a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--tap);
+  color: var(--on-dark);
+  text-decoration-color: var(--brass);
+  text-underline-offset: 3px;
+}
+.footer__contacts a svg { width: 1em; height: 1em; flex: none; color: var(--brass); }
 .footer__contacts small { display: block; color: var(--on-dark-soft); }
+
+.footer__share { margin-top: 1.75rem; }
+.footer__share .btn { color: var(--on-dark); }
+@media (min-width: 48rem) { .footer__share { justify-self: start; grid-column: 1; } }
+
+/* ===============================================================
+   Reading progress — the thread's stand-in on a narrow screen
+   =============================================================== */
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 45;
+  background: color-mix(in oklab, var(--ink) 10%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease-out-soft);
+}
+.progress.is-lit { opacity: 1; }
+.progress i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--brass-lo), var(--brass-hi));
+  transform-origin: left;
+  transform: scaleX(var(--read-progress, 0));
+}
+@media (min-width: 46rem) { .progress { display: none; } }
+
+/* ===============================================================
+   Action dock
+   ---------------------------------------------------------------
+   The three things a guest came to do, parked in the thumb zone once
+   the hero has scrolled away. It gets out of the way while the reply
+   form is on screen, where it would only be repeating itself.
+   =============================================================== */
+.dock {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 44;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem max(0.75rem, var(--safe-l)) calc(0.6rem + var(--safe-b))
+                  max(0.75rem, var(--safe-r));
+  background: color-mix(in oklab, var(--shell) 88%, transparent);
+  border-top: 1px solid var(--shell-dim);
+  box-shadow: 0 -12px 30px -28px rgba(20, 35, 31, 0.9);
+  transform: translateY(110%);
+  transition: transform var(--dur) var(--ease-settle),
+              opacity var(--dur-quick) var(--ease-out-soft);
+  opacity: 0;
+}
+@supports (backdrop-filter: blur(12px)) {
+  .dock { backdrop-filter: blur(12px) saturate(1.1); }
+}
+.dock.is-up { transform: none; opacity: 1; }
+/* Icon over label, so three actions fit a 320px screen without any of
+   them being truncated to "Directio…". */
+.dock .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-height: 3.25rem;
+  padding: 0.45rem 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+}
+.dock .btn svg { width: 1.3rem; height: 1.3rem; }
+.dock .btn span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dock .btn--quiet { color: var(--ink); border-color: var(--shell-dim); background: var(--shell-warm); }
+@media (min-width: 46rem) { .dock { display: none; } }
+
+/* ===============================================================
+   Lightbox — a photograph, full screen, where it can be looked at
+   =============================================================== */
+.lightbox {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--poruwa-lo);
+  color: var(--on-dark);
+}
+.lightbox::backdrop { background: rgba(11, 22, 19, 0.92); }
+.lightbox[open] { display: grid; grid-template-rows: auto 1fr auto; }
+.lightbox__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: max(0.6rem, var(--safe-t)) max(0.9rem, var(--safe-r)) 0.6rem max(0.9rem, var(--safe-l));
+  font-size: var(--t--1);
+  color: var(--on-dark-soft);
+  font-variant-numeric: tabular-nums;
+}
+.lightbox__close {
+  display: grid;
+  place-items: center;
+  width: var(--tap); height: var(--tap);
+  border: 1px solid color-mix(in oklab, var(--on-dark) 30%, transparent);
+  background: transparent;
+  color: inherit;
+  font-size: var(--t-1);
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.lightbox__stage {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 0 max(0.75rem, var(--safe-l)) 0 max(0.75rem, var(--safe-r));
+}
+.lightbox__stage img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto; height: auto;
+  object-fit: contain;
+  animation: confirm-in var(--dur) var(--ease-settle);
+}
+.lightbox__foot {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.9rem max(0.9rem, var(--safe-l)) calc(0.9rem + var(--safe-b)) max(0.9rem, var(--safe-r));
+}
+.lightbox__caption { color: var(--on-dark-soft); font-size: var(--t--1); max-width: 52ch; }
+.lightbox__nav { display: flex; gap: 0.5rem; }
+.lightbox__nav .btn { flex: 1 1 0; }
 
 /* ===============================================================
    Loading + failure states
@@ -724,4 +1013,30 @@ section { position: relative; }
   50%      { transform: scaleY(1);   opacity: 1; }
 }
 
-.boot__fail { max-width: 30ch; text-align: center; font-size: var(--t--1); line-height: 1.6; }
+.boot__fail { max-width: 30ch; text-align: center; font-size: var(--t--1); line-height: 1.6; padding-inline: 1.5rem; }
+
+/* ===============================================================
+   Print — the details, on one sheet, without the furniture
+   =============================================================== */
+@media print {
+  .boot, .thread, .progress, .dock, .hero__scroll, .hero__actions,
+  .gallery, #rsvp, .lightbox, .skip-link, .day__actions { display: none !important; }
+
+  html { font-size: 100%; }
+  body { background: #fff; color: #000; }
+  .band, .band--dark, .band--warm, .footer, .hero {
+    background: #fff !important;
+    color: #000 !important;
+    padding-block: 1.25rem;
+    min-height: 0;
+  }
+  .hero__media { display: none; }
+  .hero__eyebrow, .hero__line, .hero__meta, .venue__street, .venue__notes p,
+  .footer__contacts small, .footer__date { color: #333 !important; }
+  .names { font-size: 3rem; }
+  .venue__hall { color: #000 !important; }
+  .faq details { break-inside: avoid; }
+  .faq details > div { display: block !important; }
+  .slot { break-inside: avoid; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.75em; word-break: break-all; }
+}

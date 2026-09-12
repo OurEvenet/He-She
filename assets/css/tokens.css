@@ -75,9 +75,20 @@
   --gap-wide: 2rem;
   --gap-section: clamp(3.5rem, 7vw, 6.5rem);
 
-  --rail: clamp(1.25rem, 5vw, 4.5rem);   /* page side padding */
+  /* Safe areas. The page paints edge to edge under a notch or a home
+     indicator (viewport-fit=cover), so every edge pads itself back out. */
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+
+  --rail: max(clamp(1.25rem, 5vw, 4.5rem), var(--safe-l), var(--safe-r));
   --thread-x: clamp(1.25rem, 5vw, 4.5rem); /* where the brass thread hangs */
   --col: min(68rem, 100% - var(--rail) * 2);
+
+  /* Smallest comfortable touch target — 44px, the figure both Apple and
+     Google land on. Anything a thumb has to hit is at least this tall. */
+  --tap: 2.75rem;
 
   /* Motion ------------------------------------------------------ */
   --ease-settle: cubic-bezier(0.16, 0.84, 0.32, 1);
