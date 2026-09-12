@@ -2,11 +2,18 @@
 <html lang="en-LK">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- viewport-fit=cover lets the page paint under a notch; every edge that
+     matters pads itself back out with env(safe-area-inset-*). -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <title>Wedding invitation</title>
 <meta name="description" content="">
 <meta name="theme-color" content="#22463C">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Invitation">
+<meta name="format-detection" content="telephone=no">
 <link rel="canonical" href="">
 
 <meta property="og:type" content="website">
@@ -20,6 +27,8 @@
 <meta name="twitter:image" content="">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2322463c'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23c08a2e' text-anchor='middle'%3E%26amp;%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="assets/img/icon-180.png">
+<link rel="manifest" href="site.webmanifest">
 
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Fraunces.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Karla.woff2" crossorigin>
@@ -36,6 +45,10 @@
   <i></i>
   <p class="boot__fail" id="boot-fail" hidden></p>
 </div>
+
+<!-- The brass thread is a desktop luxury; on a phone the same progress is
+     read off a hairline at the top of the screen. -->
+<div class="progress" id="progress" aria-hidden="true"><i></i></div>
 
 <div class="page">
   <span class="thread" id="thread" aria-hidden="true"></span>
@@ -54,6 +67,12 @@
   <footer class="footer" id="footer"></footer>
 </div>
 
+<!-- Thumb-reach actions on a phone: reply, directions, call. Built from the
+     JSON in dock.js, and only ever shown once the hero is behind you. -->
+<nav class="dock" id="dock" aria-label="Quick actions" hidden></nav>
+
+<dialog class="lightbox" id="lightbox" aria-label="Photograph"></dialog>
+
 <noscript>
   <div class="band shell" style="position:relative;z-index:60;background:var(--shell)">
     <h2>The invitation needs JavaScript for the reply form and calendar links.</h2>
@@ -66,5 +85,22 @@
 </noscript>
 
 <script type="module" src="assets/js/main.js"></script>
+
+<!-- A browser too old for ES modules would otherwise sit on the loading
+     curtain forever. It is told so instead. -->
+<script nomodule>
+  (function () {
+    var boot = document.getElementById('boot');
+    var fail = document.getElementById('boot-fail');
+    if (!boot || !fail) return;
+    var pulse = boot.getElementsByTagName('i')[0];
+    if (pulse) pulse.parentNode.removeChild(pulse);
+    fail.hidden = false;
+    fail.textContent =
+      'This browser is a little old for the invitation — it needs a browser from the ' +
+      'last few years. Open the link on another phone or computer, or reply using the ' +
+      'numbers on your printed invitation.';
+  })();
+</script>
 </body>
 </html>

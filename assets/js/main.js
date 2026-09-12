@@ -9,6 +9,10 @@ import {
 import { initImages } from "./modules/images.js";
 import { initThread } from "./modules/thread.js";
 import { initRsvp } from "./modules/rsvp.js";
+import { initDock } from "./modules/dock.js";
+import { initShare } from "./modules/share.js";
+import { initLightbox } from "./modules/lightbox.js";
+import { buildEntries, downloadICS, icsFilename } from "./modules/calendar.js";
 
 const boot = document.getElementById("boot");
 const fail = document.getElementById("boot-fail");
@@ -17,6 +21,31 @@ const dismissBoot = () => {
   boot.classList.add("is-gone");
   setTimeout(() => (boot.hidden = true), 600);
 };
+
+/* The calendar, offered where the day is described rather than only
+   behind the reply form — plenty of guests want one without the other. */
+function wireDayCalendar(config) {
+  const button = document.querySelector("[data-day-ics]");
+  if (!button) return;
+  const entries = buildEntries(config);
+  button.addEventListener("click", () => {
+    downloadICS(config, entries, icsFilename(config));
+  });
+}
+
+/* A folded-away answer prints as nothing at all, so everything is opened
+   for the printer and put back exactly as the reader left it. */
+function wirePrinting() {
+  let reopened = [];
+  addEventListener("beforeprint", () => {
+    reopened = [...document.querySelectorAll("details:not([open])")];
+    for (const d of reopened) d.open = true;
+  });
+  addEventListener("afterprint", () => {
+    for (const d of reopened) d.open = false;
+    reopened = [];
+  });
+}
 
 async function start() {
   // Relative, so the site works at username.github.io/repo/ as well as
@@ -40,8 +69,13 @@ async function start() {
   renderFooter(document.getElementById("footer"), config);
 
   initImages(document);
-  initThread(document.getElementById("thread"));
+  initThread(document.getElementById("thread"), document.getElementById("progress"));
   initRsvp(document.getElementById("rsvp"), config);
+  initDock(document.getElementById("dock"), config);
+  initShare(document, config);
+  initLightbox(document.getElementById("lightbox"), document.getElementById("gallery"), config);
+  wireDayCalendar(config);
+  wirePrinting();
 
   // Hold the curtain until the hero photograph has actually decoded,
   // so the first thing seen is the finished page rather than a flash.

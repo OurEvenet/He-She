@@ -12,6 +12,30 @@ export const esc = (s) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
   );
 
+/* --- Icons -------------------------------------------------------
+   Drawn inline rather than pulled from a font or a sprite: five small
+   paths cost less than a request, and they inherit currentColor, so the
+   same mark works on a brass button and on a dark one. */
+
+const PATHS = {
+  calendar:
+    '<path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/>',
+  pin: '<path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  phone:
+    '<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z"/>',
+  reply: '<path d="M4 5h16v12H8l-4 4z"/>',
+  share:
+    '<path d="M12 15V4M8.5 7.5 12 4l3.5 3.5"/><path d="M5 12v7h14v-7"/>',
+};
+
+/** One inline icon, sized by the button's own font-size. */
+export const icon = (name) =>
+  PATHS[name]
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+            focusable="false">${PATHS[name]}</svg>`
+    : "";
+
 /* --- Head ------------------------------------------------------- */
 
 export function renderHead(c) {
@@ -83,6 +107,10 @@ export function renderHero(el, c) {
            ${esc(venue.name)}, ${esc(venue.city)}</p>
       </div>
       <p class="hero__line">${esc(couple.hero)}</p>
+      <div class="hero__actions">
+        <a class="btn" href="#rsvp">${esc(c.rsvp.heading)}</a>
+        <a class="btn btn--quiet" href="#day">How the day runs</a>
+      </div>
     </div>
     <a class="hero__scroll" href="#letter"><span>Read on</span><i></i></a>`;
 
@@ -121,11 +149,11 @@ export function renderDay(el, c) {
         <h2>How the day runs</h2>
         <p>Three parts, one venue. Come to whichever you can.</p>
       </div>
-      <div class="day">
+      <ol class="day">
         ${events
           .map(
             (ev) => `
-          <article class="slot">
+          <li class="slot">
             <p class="slot__time">${esc(formatTime(ev.start, meta.timezone, meta.dateLocale))}
               <small>until ${esc(formatTime(ev.end, meta.timezone, meta.dateLocale))}</small>
             </p>
@@ -135,9 +163,17 @@ export function renderDay(el, c) {
               ${ev.note ? `<p class="slot__note">${esc(ev.note)}</p>` : ""}
               <p class="slot__dress">Dress: ${esc(ev.dress)}</p>
             </div>
-          </article>`
+          </li>`
           )
           .join("")}
+      </ol>
+
+      <div class="day__actions">
+        <button class="btn btn--quiet" type="button" data-day-ics>
+          ${icon("calendar")}<span>Add the day to your calendar</span>
+        </button>
+        <p class="day__note">A calendar file with every part of the day, and an alarm
+          two weeks ahead so leave from work does not creep up on you.</p>
       </div>
     </div>`;
 }
@@ -156,11 +192,14 @@ export function renderGallery(el, c) {
       <div class="gallery">
         ${gallery
           .map(
-            (g) => `
+            (g, i) => `
           <figure>
-            ${frameHTML(images[g.src], esc(g.alt), {
-              sizes: "(max-width: 46rem) 50vw, 40vw",
-            })}
+            <button class="gallery__open" type="button" data-photo="${i}"
+                    aria-label="Open photograph: ${esc(g.alt || g.caption)}">
+              ${frameHTML(images[g.src], esc(g.alt), {
+                sizes: "(max-width: 46rem) 50vw, 40vw",
+              })}
+            </button>
             <figcaption>${esc(g.caption)}</figcaption>
           </figure>`
           )
@@ -192,8 +231,12 @@ export function renderVenue(el, c) {
               .join("")}
           </div>
           <div class="venue__links">
-            <a class="btn" href="${esc(venue.directionsUrl)}" target="_blank" rel="noopener">Open directions</a>
-            <a class="btn btn--quiet" href="${esc(venue.mapsUrl)}" target="_blank" rel="noopener">See it on the map</a>
+            <a class="btn" href="${esc(venue.directionsUrl)}" target="_blank" rel="noopener">
+              ${icon("pin")}<span>Open directions</span>
+            </a>
+            <a class="btn btn--quiet" href="${esc(venue.mapsUrl)}" target="_blank" rel="noopener">
+              <span>See it on the map</span>
+            </a>
           </div>
         </div>
         <div>${frameHTML(images[venue.image], `${esc(venue.name)} from the lakeside`, {
@@ -235,15 +278,22 @@ export function renderRsvp(el, c) {
 
       <div>
         <form class="form" id="rsvp-form" novalidate>
-          <div class="field">
+          <div class="field" data-field="name">
             <label for="rsvp-name">Name, as it appears on your invitation</label>
-            <input id="rsvp-name" name="name" type="text" autocomplete="name" required>
+            <input id="rsvp-name" name="name" type="text" autocomplete="name"
+                   autocapitalize="words" enterkeyhint="next" spellcheck="false"
+                   aria-describedby="rsvp-name-error" required>
+            <p class="field__error" id="rsvp-name-error" hidden></p>
           </div>
 
-          <div class="field">
+          <div class="field" data-field="email">
             <label for="rsvp-email">Email</label>
-            <input id="rsvp-email" name="email" type="email" autocomplete="email" required>
-            <p class="field__hint">Only used to send you the details again nearer the time.</p>
+            <input id="rsvp-email" name="email" type="email" autocomplete="email"
+                   inputmode="email" autocapitalize="off" autocorrect="off"
+                   spellcheck="false" enterkeyhint="next"
+                   aria-describedby="rsvp-email-hint rsvp-email-error" required>
+            <p class="field__hint" id="rsvp-email-hint">Only used to send you the details again nearer the time.</p>
+            <p class="field__error" id="rsvp-email-error" hidden></p>
           </div>
 
           <fieldset class="fieldset">
@@ -282,14 +332,16 @@ export function renderRsvp(el, c) {
 
           <div class="field">
             <label for="rsvp-message">Anything else</label>
-            <textarea id="rsvp-message" name="message"
+            <textarea id="rsvp-message" name="message" rows="4" enterkeyhint="enter"
               placeholder="Allergies, a song you want played, the year you last danced."></textarea>
           </div>
 
           <p class="form__error" id="rsvp-error" role="alert" hidden></p>
 
-          <div>
-            <button class="btn" type="submit" id="rsvp-submit">Send our reply</button>
+          <div class="form__submit">
+            <button class="btn" type="submit" id="rsvp-submit">
+              ${icon("reply")}<span>Send our reply</span>
+            </button>
           </div>
         </form>
 
@@ -310,7 +362,7 @@ export function renderRsvp(el, c) {
             <p>Or download it for Apple Calendar, Outlook, or anything else</p>
             <div class="confirm__buttons">
               <button class="btn btn--quiet" type="button" data-ics>
-                Download the calendar file
+                ${icon("calendar")}<span>Download the calendar file</span>
               </button>
             </div>
           </div>
@@ -364,11 +416,18 @@ export function renderFooter(el, c) {
           .map(
             (p) => `
           <p>
-            <a href="tel:${esc(p.phone.replace(/\s/g, ""))}">${esc(p.name)} — ${esc(p.phone)}</a>
+            <a href="tel:${esc(p.phone.replace(/\s/g, ""))}">
+              ${icon("phone")}<span>${esc(p.name)} — ${esc(p.phone)}</span>
+            </a>
             <small>${esc(p.role)}</small>
           </p>`
           )
           .join("")}
+      </div>
+      <div class="footer__share">
+        <button class="btn btn--quiet" type="button" data-share hidden>
+          ${icon("share")}<span>Send this invitation on</span>
+        </button>
       </div>
     </div>`;
 }
