@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invitation editor</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#14231f">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314231f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' fill='%23c08a2e' text-anchor='middle'%3E%E2%9C%8E%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/editor.css">
+</head>
+
+<body>
+<a class="skip-link" href="#form">Skip to the fields</a>
+
+<header class="bar">
+  <div class="bar__title">
+    <strong>Invitation editor</strong>
+    <span id="source">loading…</span>
+  </div>
+
+  <div class="bar__actions">
+    <span class="pill" id="checks-pill" data-state="ok" hidden>
+      <span id="checks-count">0</span> to look at
+    </span>
+    <span class="pill pill--dirty" id="dirty" hidden>unsaved changes</span>
+
+    <label class="btn btn--quiet" for="load">
+      Open a file
+      <input type="file" id="load" accept="application/json,.json" hidden>
+    </label>
+    <button class="btn btn--quiet" type="button" id="revert">Start over</button>
+    <a class="btn btn--quiet" href="index.html" target="_blank" rel="noopener">Preview page</a>
+    <button class="btn" type="button" id="download">Download wedding.json</button>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="nav" id="nav" aria-label="Sections"></nav>
+
+  <main class="main">
+    <section class="checks" id="checks" hidden>
+      <h2>Worth checking</h2>
+      <ul id="checks-list"></ul>
+    </section>
+
+    <div id="form"></div>
+
+    <section class="panel" id="raw-panel">
+      <header class="panel__head">
+        <h2>The file you will download</h2>
+        <button class="btn btn--quiet btn--small" type="button" id="raw-toggle" aria-expanded="false">Show</button>
+      </header>
+      <p class="panel__note">This is exactly what lands in <code>data/wedding.json</code>. Replace the file in your repository with it, commit, and GitHub Pages picks it up.</p>
+      <pre id="raw" hidden></pre>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<noscript><p style="padding:2rem">The editor needs JavaScript. You can still edit <code>data/wedding.json</code> by hand.</p></noscript>
+
+<script type="module" src="assets/js/editor.js"></script>
+</body>
+</html>
