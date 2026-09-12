@@ -1,0 +1,294 @@
+{
+  "$comment": "Everything on the page is read from this file. Edit here, never in index.html. Re-run tools/sync-lqip.py after replacing any image.",
+  "meta": {
+    "siteTitle": "Dinuka & Sanduni — 20 February 2027",
+    "description": "Dinuka Rajapaksha and Sanduni Weerakoon invite you to their wedding at Waters Edge, Battaramulla, on Saturday 20 February 2027.",
+    "locale": "en-LK",
+    "dateLocale": "en-GB",
+    "timezone": "Asia/Colombo",
+    "url": "https://example.github.io/wedding/",
+    "ogImage": "assets/img/og.jpg",
+    "themeColor": "#22463C"
+  },
+  "images": {
+    "hero": {
+      "jpg": "assets/img/hero.jpg",
+      "webp": "assets/img/hero.webp",
+      "width": 1600,
+      "height": 2000,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAAUABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDCjTPFNkTBqVOOlI/NLqTcVelI1FFMk//Z"
+    },
+    "poruwa": {
+      "jpg": "assets/img/poruwa.jpg",
+      "webp": "assets/img/poruwa.webp",
+      "width": 1400,
+      "height": 1750,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAAUABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDngvNPaPApyjmpG+7SZNxopT0oopkn/9k="
+    },
+    "lamp": {
+      "jpg": "assets/img/lamp.jpg",
+      "webp": "assets/img/lamp.webp",
+      "width": 1200,
+      "height": 1200,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAAUABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDPjQbajdeakU8UhFYoogK0VKRzRVXEOWnGiipAYetFFFMD/9k="
+    },
+    "hands": {
+      "jpg": "assets/img/hands.jpg",
+      "webp": "assets/img/hands.webp",
+      "width": 1500,
+      "height": 1000,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDCRB3pXQdqcBSkUEXK5SipiKKAuf/Z"
+    },
+    "araliya": {
+      "jpg": "assets/img/araliya.jpg",
+      "webp": "assets/img/araliya.webp",
+      "width": 1100,
+      "height": 1400,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAAUABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDaXGKGwRUatxQ8gUc1IysHIUmondm5NFFMk//Z"
+    },
+    "kandy": {
+      "jpg": "assets/img/kandy.jpg",
+      "webp": "assets/img/kandy.webp",
+      "width": 1600,
+      "height": 1000,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDEWMbaY0YqVTxQ1Ii5XKUVKaKYXP/Z"
+    },
+    "table": {
+      "jpg": "assets/img/table.jpg",
+      "webp": "assets/img/table.webp",
+      "width": 1300,
+      "height": 1300,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAAUABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDNijzRImKfGQKHOTWOtyuhWK0VKRRVXEOUUrUUUgGmiiigD//Z"
+    },
+    "venue": {
+      "jpg": "assets/img/venue.jpg",
+      "webp": "assets/img/venue.webp",
+      "width": 1600,
+      "height": 1000,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDERARzTHQVKKDSsRcr7aKmIophc//Z"
+    },
+    "og": {
+      "jpg": "assets/img/og.jpg",
+      "webp": "assets/img/og.webp",
+      "width": 1200,
+      "height": 630,
+      "lqip": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABkRExYTEBkWFBYcGxkeJT4pJSIiJUw3Oi0+WlBfXllQV1ZkcJB6ZGqIbFZXfap+iJSZoaKhYXiwva+cu5CeoZr/2wBDARscHCUhJUkpKUmaZ1dnmpqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampqampr/wAARCAALABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDDSNT1prxjPFSLSmgi5B5dFSnrRQFz/9k="
+    }
+  },
+  "couple": {
+    "one": {
+      "name": "Dinuka",
+      "full": "Dinuka Rajapaksha",
+      "parents": "son of Nimal & Chandrika Rajapaksha"
+    },
+    "two": {
+      "name": "Sanduni",
+      "full": "Sanduni Weerakoon",
+      "parents": "daughter of Sunil & Kumari Weerakoon"
+    },
+    "dateLine": "Saturday, the twentieth of February, two thousand and twenty-seven",
+    "hero": "We are getting married, and the day would be thinner without you in it.",
+    "invite": "Nimal & Chandrika Rajapaksha, and Sunil & Kumari Weerakoon, invite you to the marriage of their children"
+  },
+  "letter": {
+    "heading": "A note before the noise starts",
+    "body": [
+      "We thought about doing this quietly. Then we counted the people who have fed us, housed us, argued with us and driven us to the airport at four in the morning, and the list got long enough that quietly stopped making sense.",
+      "So there will be a poruwa in the morning, rice and curry that takes three hours to eat, and a reception that runs until the band gives up. Come for any part of it. Come for all of it.",
+      "One practical thing: if you need to take leave or arrange cover at work, the calendar buttons further down will set a reminder two weeks ahead so it does not creep up on you."
+    ],
+    "signoff": "Dinuka & Sanduni",
+    "aside": "Come for the poruwa. Stay for the part where my uncle is handed a microphone and nobody can find a way to take it back."
+  },
+  "events": [
+    {
+      "id": "poruwa",
+      "name": "Poruwa ceremony",
+      "shortName": "Poruwa",
+      "start": "2027-02-20T09:12:00",
+      "end": "2027-02-20T10:45:00",
+      "note": "The nekath is 9.12 a.m. sharp. Doors close at 9.00 — please be seated by then.",
+      "description": "The traditional ceremony, followed by the wedding lunch. Seating from 8.30 a.m.",
+      "dress": "Saree, osari, national, or a suit."
+    },
+    {
+      "id": "lunch",
+      "name": "Wedding lunch",
+      "shortName": "Lunch",
+      "start": "2027-02-20T11:30:00",
+      "end": "2027-02-20T14:30:00",
+      "note": "Long, loud, and not to be rushed.",
+      "description": "Rice and curry, served at the Riverside Hall. No formal seating plan.",
+      "dress": "Whatever you wore to the poruwa."
+    },
+    {
+      "id": "reception",
+      "name": "Evening reception",
+      "shortName": "Reception",
+      "start": "2027-02-20T18:30:00",
+      "end": "2027-02-20T23:30:00",
+      "note": "Dancing from about nine, once the speeches are safely out of the way.",
+      "description": "Cocktails on the lawn, dinner at 8.00 p.m., and a band after.",
+      "dress": "Cocktail. The lawn is grass — heels sink."
+    }
+  ],
+  "venue": {
+    "name": "Waters Edge",
+    "hall": "Riverside Hall & Lakeside Lawn",
+    "address": "316 Ethul Kotte Road, Battaramulla 10120, Sri Lanka",
+    "city": "Battaramulla",
+    "mapsUrl": "https://maps.google.com/?q=Waters+Edge+Battaramulla",
+    "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=Waters+Edge+Battaramulla",
+    "lat": 6.9016,
+    "lng": 79.9092,
+    "image": "venue",
+    "notes": [
+      {
+        "title": "Parking",
+        "text": "Free on site, but it fills by 8.40 a.m. on ceremony mornings. There is overflow parking behind the golf course entrance."
+      },
+      {
+        "title": "Coming from Colombo",
+        "text": "Twenty minutes off the Parliament Road exit outside peak hours, closer to fifty if you leave after 7.30 a.m."
+      },
+      {
+        "title": "Staying over",
+        "text": "We have held a small block of rooms at the hotel next door. Mention the wedding when you book."
+      }
+    ]
+  },
+  "calendar": {
+    "organizerName": "Dinuka & Sanduni",
+    "organizerEmail": "hello@example.com",
+    "leaveReminder": {
+      "enabled": true,
+      "daysBefore": 14,
+      "title": "Apply for leave — Dinuka & Sanduni's wedding",
+      "description": [
+        "The wedding is in two weeks (Saturday 20 February 2027, Waters Edge, Battaramulla).",
+        "",
+        "If you have not already:",
+        "• Put the leave request in with your manager",
+        "• Arrange cover for anything that falls on the Friday or Monday",
+        "• Book travel if you are coming from out of Colombo",
+        "• Confirm the hotel room if you are staying over"
+      ]
+    },
+    "alarms": [
+      {
+        "trigger": "-P14D",
+        "label": "Two weeks out — sort out leave and cover at work"
+      },
+      {
+        "trigger": "-P1D",
+        "label": "Tomorrow. The nekath is 9.12 a.m."
+      }
+    ],
+    "googleClientId": ""
+  },
+  "rsvp": {
+    "endpoint": "",
+    "deadline": "2027-01-20T23:59:00",
+    "maxGuests": 4,
+    "heading": "Will you be there?",
+    "intro": "One form per household. If plans change, send it again — we will take the most recent one.",
+    "attendance": [
+      {
+        "value": "yes",
+        "label": "Yes, all of it"
+      },
+      {
+        "value": "partial",
+        "label": "Some of it"
+      },
+      {
+        "value": "no",
+        "label": "Cannot make it"
+      }
+    ],
+    "meals": [
+      {
+        "value": "standard",
+        "label": "No restrictions"
+      },
+      {
+        "value": "vegetarian",
+        "label": "Vegetarian"
+      },
+      {
+        "value": "vegan",
+        "label": "Vegan"
+      },
+      {
+        "value": "halal",
+        "label": "Halal"
+      }
+    ]
+  },
+  "gallery": [
+    {
+      "src": "poruwa",
+      "alt": "The decorated poruwa canopy, lit from the side",
+      "caption": "The poruwa, mid-assembly"
+    },
+    {
+      "src": "lamp",
+      "alt": "Brass oil lamp with the wick just lit",
+      "caption": "First light"
+    },
+    {
+      "src": "hands",
+      "alt": "Two hands, betel leaves between them",
+      "caption": "Betel, passed the old way"
+    },
+    {
+      "src": "araliya",
+      "alt": "Araliya blossoms on a pale cloth",
+      "caption": "Araliya from the garden at home"
+    },
+    {
+      "src": "kandy",
+      "alt": "Hill country at dusk, layered ridges",
+      "caption": "Where the whole thing started"
+    },
+    {
+      "src": "table",
+      "alt": "Table laid with brass and banana leaf",
+      "caption": "Lunch, before anyone sits down"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I bring someone?",
+      "a": "If your invitation names a guest, yes. If it does not, ask us — we will almost certainly say yes, we just need the headcount."
+    },
+    {
+      "q": "Are children welcome?",
+      "a": "Very. There is a shaded area off the lawn for the small ones, and the lunch has plain rice for the fussy."
+    },
+    {
+      "q": "What time should I actually arrive?",
+      "a": "For the poruwa, 8.30. The nekath does not wait, and the doors close at 9.00."
+    },
+    {
+      "q": "Is there a gift registry?",
+      "a": "No registry. Your being there is genuinely the thing. If you insist, there will be a box at the reception."
+    },
+    {
+      "q": "Can I take photographs?",
+      "a": "During the poruwa, please leave it to the photographer — phones in the aisle end up in every frame. After that, go ahead."
+    }
+  ],
+  "contacts": [
+    {
+      "name": "Ruwan",
+      "role": "Anything about the day itself",
+      "phone": "+94 77 000 0000"
+    },
+    {
+      "name": "Ishara",
+      "role": "Travel, rooms, directions",
+      "phone": "+94 71 000 0000"
+    }
+  ]
+}

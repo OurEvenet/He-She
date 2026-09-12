@@ -1,0 +1,98 @@
+/* ---------------------------------------------------------------
+   Fonts are self-hosted rather than pulled from Google, so the page
+   makes no third-party request, survives a blocked CDN, and keeps
+   the SOFT and WONK variation axes that give Fraunces its character.
+   Both families are SIL Open Font Licence 1.1 — see assets/fonts/.
+   --------------------------------------------------------------- */
+@font-face {
+  font-family: "Fraunces";
+  src: url("../fonts/Fraunces.woff2") format("woff2-variations"),
+       url("../fonts/Fraunces.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("../fonts/Fraunces-Italic.woff2") format("woff2-variations"),
+       url("../fonts/Fraunces-Italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Karla";
+  src: url("../fonts/Karla.woff2") format("woff2-variations"),
+       url("../fonts/Karla.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------
+   Tokens. Palette is drawn from the room the day happens in:
+   betel green, the black-green of wet leaves, brass lamplight,
+   and the paper the invitations were printed on.
+   --------------------------------------------------------------- */
+
+:root {
+  /* Colour ------------------------------------------------------ */
+  --ink:        #14231f;  /* green-black; body text on light */
+  --ink-soft:   #3d4f49;
+  --poruwa:     #22463c;  /* the dominant surface */
+  --poruwa-dim: #1a352e;
+  --poruwa-lo:  #0f221d;
+  --brass:      #c08a2e;  /* the single accent */
+  --brass-lo:   #8f6518;
+  --brass-hi:   #e2b45e;
+  --shell:      #e8e6dc;  /* paper */
+  --shell-warm: #f2f0e7;
+  --shell-dim:  #d5d2c4;
+  --alarm:      #9c3a2e;  /* form errors only */
+
+  --on-dark:      #e6e9e2;
+  --on-dark-soft: #a7b3aa;
+
+  /* Type -------------------------------------------------------- */
+  --display: "Fraunces", "Hoefler Text", "Iowan Old Style", Georgia, serif;
+  --text: "Karla", "Helvetica Neue", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Perfect-fourth scale (1.333) from a 17px base */
+  --t--1: 0.855rem;
+  --t-0:  1rem;
+  --t-1:  1.333rem;
+  --t-2:  1.777rem;
+  --t-3:  2.369rem;
+  --t-4:  3.157rem;
+  --t-5:  4.209rem;
+
+  --measure: 62ch;
+
+  /* Space — a 4px rhythm, named by use not by t-shirt size ------- */
+  --gap-hair: 0.25rem;
+  --gap-tight: 0.5rem;
+  --gap: 1rem;
+  --gap-wide: 2rem;
+  --gap-section: clamp(3.5rem, 7vw, 6.5rem);
+
+  --rail: clamp(1.25rem, 5vw, 4.5rem);   /* page side padding */
+  --thread-x: clamp(1.25rem, 5vw, 4.5rem); /* where the brass thread hangs */
+  --col: min(68rem, 100% - var(--rail) * 2);
+
+  /* Motion ------------------------------------------------------ */
+  --ease-settle: cubic-bezier(0.16, 0.84, 0.32, 1);
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-quick: 220ms;
+  --dur: 480ms;
+  --dur-slow: 1100ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-quick: 1ms;
+    --dur: 1ms;
+    --dur-slow: 1ms;
+  }
+}
