@@ -27,8 +27,14 @@ for name, m in lqip.items():
          ("lqip", m["lqip"])]
     )
 
+# The rebuilt "images" block goes back in its old position, immediately after
+# "meta". The existing one is skipped rather than copied: copying it first and
+# inserting afterwards, as this did, let the stale block win and the sync
+# silently did nothing on every run after the first.
 out = collections.OrderedDict()
 for k, v in data.items():
+    if k == "images":
+        continue
     out[k] = v
     if k == "meta":
         out["images"] = images

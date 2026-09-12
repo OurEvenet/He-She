@@ -1,0 +1,10 @@
+# Originals dropped in for tools/import-photos.py. The site ships the
+# converted files; the twelve-megapixel ones off the camera stay on your
+# machine, where their metadata can do no harm.
+assets/img/incoming/
+
+# Handover file between the image tools and data/wedding.json. The numbers
+# that matter end up in the JSON, which is committed.
+assets/img/_lqip.json
+
+.DS_Store
