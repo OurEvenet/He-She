@@ -236,11 +236,21 @@ python3 tools/make-icons.py      # regenerate the home-screen icons
 python3 tools/sync-lqip.py       # push image metadata into wedding.json
 ```
 
-`tools/sync-lqip.py` is the last step of both generators: it reads
+`tools/sync-lqip.py` is the last step of every image tool: it reads
 `assets/img/_lqip.json` and rewrites the `images` block in the JSON.
 `import-photos.py` runs it for you. The recorded width and height are what
 keep the layout from shifting as photographs arrive, so do not edit them by
 hand.
+
+**Why the paths carry `?v=` on the end.** A photograph replaced in place
+keeps its name — `hero.jpg` is always `hero.jpg` — so nothing in the URL
+changes when the picture does, and a browser holding the old one has no
+reason to ask for another. You deploy, and still see last month's
+photograph; so does every guest who looked once before. The sync puts eight
+characters of the file's own content into the query string, so changing the
+picture changes the URL and the stale one can never be served. Leave the
+picture alone and the URL is stable, so it stays cached, which is the point
+of caching. It is computed, never typed.
 
 Each photograph loads with a 20px blurred placeholder inlined in the JSON, and
 its real file is fetched only once it is within 500px of the viewport.
