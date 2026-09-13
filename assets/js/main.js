@@ -13,6 +13,8 @@ import { initDock } from "./modules/dock.js";
 import { initShare } from "./modules/share.js";
 import { initLightbox } from "./modules/lightbox.js";
 import { buildEntries, downloadICS, icsFilename } from "./modules/calendar.js";
+import { chosenTheme, applyTheme } from "./modules/theme.js";
+import { initOrnament } from "./modules/ornament.js";
 
 const boot = document.getElementById("boot");
 const fail = document.getElementById("boot-fail");
@@ -58,6 +60,11 @@ async function start() {
   // Used for Intl only; meta.locale still sets the document language.
   config.meta.dateLocale = config.meta.dateLocale || config.meta.locale;
 
+  // Before a single section is built, so the page is never briefly
+  // dressed in the wrong colours.
+  const { theme } = chosenTheme(config);
+  applyTheme(theme);
+
   renderHead(config);
   renderHero(document.getElementById("hero"), config);
   renderLetter(document.getElementById("letter"), config);
@@ -76,6 +83,8 @@ async function start() {
   initLightbox(document.getElementById("lightbox"), document.getElementById("gallery"), config);
   wireDayCalendar(config);
   wirePrinting();
+  // Artwork last: it is decoration, and nothing waits on it
+  initOrnament(theme, config);
 
   // Hold the curtain until the hero photograph has actually decoded,
   // so the first thing seen is the finished page rather than a flash.

@@ -1,0 +1,220 @@
+/* ---------------------------------------------------------------
+   Themes.
+
+   tokens.css holds the default palette and every other token. This
+   file holds nothing but colour, once per theme, applied by a
+   data-theme attribute on <html> that theme.js sets from
+   meta.theme in wedding.json.
+
+   The token names are the original palette's and have stayed
+   literal, so read them as roles rather than as colours:
+
+     --ink        text on paper
+     --poruwa     the dominant deep surface (venue band, footer, hero)
+     --brass      the single accent, and the thread
+     --shell      the paper the page is printed on
+     --on-dark    text on the deep surface
+
+   Type, spacing and motion do not vary by theme. A wedding
+   invitation should read the same however it is dressed.
+
+   Contrast is not eyeballed: tools/check-contrast.py asserts every
+   pair that carries text, at the ratio WCAG asks for.
+   --------------------------------------------------------------- */
+
+/* --- Poruwa ------------------------------------------------------
+   The original — betel green, the black-green of wet leaves, brass
+   lamplight, and the paper the invitations were printed on. It is
+   the palette in tokens.css and is deliberately not repeated here:
+   one set of values, so the two can never drift apart. Setting
+   data-theme="poruwa" simply leaves those defaults standing. */
+
+/* --- Kandyan -----------------------------------------------------
+   The Sri Lankan one. Lac red and gold: the reds of a Nilame
+   costume and the gold of a bride's nalalpata, on the ivory of a
+   palm-leaf manuscript. This is the theme the ornaments are drawn
+   for — liyawel creepers, a punkalasa, sesath, and the couple on
+   the poruwa. */
+:root[data-theme="kandyan"] {
+  --ink:        #2a1512;
+  --ink-soft:   #5c3a33;
+  --poruwa:     #6d2024;
+  --poruwa-dim: #551619;
+  --poruwa-lo:  #3a0f12;
+  --brass:      #c9a227;
+  --brass-lo:   #7d6210;
+  --brass-hi:   #ecca6b;
+  --shell:      #f4ece0;
+  --shell-warm: #fbf5ec;
+  --shell-dim:  #e0d2be;
+  --field-line: #8f8877;
+  --alarm:      #a32a17;
+  --on-dark:      #f8ece0;
+  --on-dark-soft: #e0b8ac;
+}
+
+/* --- Araliya -----------------------------------------------------
+   Temple flower. A morning ceremony rather than an evening one:
+   white petals, sage leaves, and gold worn lightly. */
+:root[data-theme="araliya"] {
+  --ink:        #1e2c26;
+  --ink-soft:   #47584f;
+  --poruwa:     #36513f;
+  --poruwa-dim: #2c4335;
+  --poruwa-lo:  #22342b;
+  --brass:      #bc9243;
+  --brass-lo:   #75591a;
+  --brass-hi:   #e3c384;
+  --shell:      #f7f4ed;
+  --shell-warm: #fdfcf7;
+  --shell-dim:  #e3ddd0;
+  --field-line: #918d81;
+  --alarm:      #97362a;
+  --on-dark:      #f3f7f1;
+  --on-dark-soft: #c3d3c6;
+}
+
+/* --- Handahana ---------------------------------------------------
+   The moon. For a reception that runs late: indigo, and gold read
+   by lamplight. */
+:root[data-theme="handahana"] {
+  --ink:        #161a2b;
+  --ink-soft:   #414863;
+  --poruwa:     #1f2642;
+  --poruwa-dim: #171d35;
+  --poruwa-lo:  #0c1021;
+  --brass:      #c6a052;
+  --brass-lo:   #6f5716;
+  --brass-hi:   #ecd096;
+  --shell:      #edecf1;
+  --shell-warm: #f6f5f9;
+  --shell-dim:  #d6d4df;
+  --field-line: #888794;
+  --alarm:      #9a3340;
+  --on-dark:      #eceef7;
+  --on-dark-soft: #adb4cd;
+}
+
+/* ---------------------------------------------------------------
+   Ornament
+   ---------------------------------------------------------------
+   The artwork ornament.js hangs off the page. Every piece is
+   decorative: aria-hidden, never in the tab order, never able to
+   take a tap meant for something else.
+   --------------------------------------------------------------- */
+
+.orn {
+  pointer-events: none;
+  user-select: none;
+  color: var(--brass);
+}
+.orn svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* A rule of creeper between sections, the way a border runs down
+   the edge of a painted panel. */
+.orn--rule {
+  display: block;
+  width: min(30rem, 60%);
+  margin: clamp(2.5rem, 6vw, 4rem) auto 0;
+  opacity: 0.75;
+}
+.band--dark .orn--rule, .footer .orn--rule { color: var(--brass-hi); }
+
+/* The couple on the poruwa, under the letter. Sized off the text
+   column so it never fights the words above it. */
+.orn--couple {
+  display: block;
+  width: min(22rem, 78%);
+  margin: clamp(2rem, 5vw, 3rem) auto 0;
+}
+
+/* A pot of plenty at the foot of the page */
+.orn--pot {
+  display: block;
+  width: min(7rem, 26%);
+  margin: 0 auto clamp(1.5rem, 4vw, 2.5rem);
+  opacity: 0.9;
+}
+
+/* A sesath turning behind the reply form. Faint enough that it reads as
+   paper texture until you look at it, and always behind the words: the
+   band's own content is lifted a layer so the fan cannot cover it. */
+.orn--watermark {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: max(-3rem, -6vw);
+  width: min(20rem, 46vw);
+  transform: translateY(-50%);
+  opacity: 0.09;
+}
+.orn-host { overflow: clip; }
+.band--warm > .shell { position: relative; z-index: 1; }
+@media (max-width: 46rem) { .orn--watermark { opacity: 0.06; } }
+
+/* Corner creepers on the hero, kept off the type and off the edge */
+.orn--corner {
+  position: absolute;
+  z-index: 1;
+  width: clamp(5.5rem, 16vw, 11rem);
+  opacity: 0.55;
+  color: var(--brass-hi);
+}
+.orn--corner[data-corner="tl"] { top: calc(var(--safe-t) + 0.5rem); left: 0.5rem; }
+.orn--corner[data-corner="tr"] { top: calc(var(--safe-t) + 0.5rem); right: 0.5rem; transform: scaleX(-1); }
+@media (max-width: 30rem) { .orn--corner { opacity: 0.4; } }
+
+/* ---------------------------------------------------------------
+   How the artwork moves
+   ---------------------------------------------------------------
+   Each piece draws itself once, in the register the rest of the
+   page uses: slow, once, and never again. Nothing loops except a
+   lamp flame, which is what a flame does.
+   --------------------------------------------------------------- */
+
+.orn [data-draw] {
+  stroke-dasharray: var(--len, 1200);
+  stroke-dashoffset: var(--len, 1200);
+  animation: orn-draw 2.8s var(--ease-settle) forwards;
+}
+.orn [data-draw="2"] { animation-delay: 0.35s; }
+.orn [data-draw="3"] { animation-delay: 0.7s; }
+@keyframes orn-draw { to { stroke-dashoffset: 0; } }
+
+.orn [data-fade] {
+  opacity: 0;
+  animation: orn-fade 1.6s var(--ease-out-soft) 1.1s forwards;
+}
+@keyframes orn-fade { to { opacity: 1; } }
+
+.orn [data-flame] {
+  transform-origin: 50% 100%;
+  animation: orn-flame 2.6s ease-in-out 2s infinite;
+}
+@keyframes orn-flame {
+  0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.95; }
+  40%      { transform: scaleY(1.12) scaleX(0.94); opacity: 1; }
+  70%      { transform: scaleY(0.96) scaleX(1.04); opacity: 0.88; }
+}
+
+.orn [data-turn] {
+  transform-origin: 50% 50%;
+  animation: orn-turn 34s linear 1.5s infinite;
+}
+@keyframes orn-turn { to { transform: rotate(360deg); } }
+
+/* Asked to sit still: the artwork is simply there, finished, from
+   the first frame — no drawing on, no flame, no turning. */
+@media (prefers-reduced-motion: reduce) {
+  .orn [data-draw],
+  .orn [data-fade],
+  .orn [data-flame],
+  .orn [data-turn] {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Ornament is decoration. It does not belong on a printed sheet. */
+@media print { .orn { display: none !important; } }

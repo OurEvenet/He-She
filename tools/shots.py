@@ -112,5 +112,31 @@ with sync_playwright() as pw:
                   f"({r['scrollWidth']}px) small-targets={len(r['small'])} {r['small'][:4]}")
             ap.close()
 
+    # --- Every theme, and the artwork it hangs on the page ---------------
+    # A theme is a whole second (third, fourth) design to get wrong, and the
+    # ornaments are absolutely positioned, which is the usual way a page
+    # gains a sideways scroll. Both are checked rather than admired.
+    print()
+    for theme in ("poruwa", "kandyan", "araliya", "handahana"):
+        tp = b.new_page(viewport={"width": 390, "height": 844}, has_touch=True)
+        tp.on("pageerror", lambda e, t=theme: errs.append(f"{t}: {e}"))
+        tp.goto(f"{BASE}?theme={theme}", wait_until="networkidle")
+        tp.wait_for_timeout(2600)
+        tp.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+        tp.wait_for_timeout(900)
+        r = tp.evaluate(AUDIT)
+        art = tp.evaluate("""() => {
+          const orn = [...document.querySelectorAll('.orn')];
+          return { n: orn.length,
+                   hidden: orn.every(o => o.getAttribute('aria-hidden') === 'true'),
+                   reachable: orn.some(o => o.querySelector('a,button,[tabindex]')) };
+        }""")
+        chrome = tp.evaluate("document.querySelector('meta[name=theme-color]').content")
+        tp.screenshot(path=f"{OUT}/theme-{theme}.png")
+        print(f"{theme:10s} sideways-scroll={r['hscroll']} small-targets={len(r['small'])} "
+              f"ornaments={art['n']} aria-hidden={art['hidden']} "
+              f"in-tab-order={art['reachable']} chrome={chrome}")
+        tp.close()
+
     print("\nERRORS:", errs or "none")
     b.close()

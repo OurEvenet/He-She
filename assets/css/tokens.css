@@ -43,11 +43,15 @@
   --poruwa-dim: #1a352e;
   --poruwa-lo:  #0f221d;
   --brass:      #c08a2e;  /* the single accent */
-  --brass-lo:   #8f6518;
+  --brass-lo:   #7e590f;  /* dark enough to carry text and focus rings */
   --brass-hi:   #e2b45e;
   --shell:      #e8e6dc;  /* paper */
   --shell-warm: #f2f0e7;
-  --shell-dim:  #d5d2c4;
+  --shell-dim:  #d5d2c4;  /* hairline dividers — decorative */
+  /* The line round a form field is the only thing saying where the field
+     is, so it is a good deal darker than a divider: WCAG asks 3:1 for a
+     control's boundary, and --shell-dim is nowhere near it. */
+  --field-line: #878373;
   --alarm:      #9c3a2e;  /* form errors only */
 
   --on-dark:      #e6e9e2;

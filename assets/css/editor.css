@@ -222,7 +222,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0
   /* 16px or more, or iOS zooms the page in the moment a field is tapped */
   font-size: max(1rem, 16px);
   background: #fff;
-  border: 1px solid var(--shell-dim);
+  border: 1px solid var(--field-line);
   border-radius: 0;
 }
 .f textarea { min-height: 5rem; resize: vertical; line-height: 1.5; }
