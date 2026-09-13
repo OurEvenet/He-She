@@ -15,6 +15,7 @@
 import {
   zonedToUTC, toUTCStamp, shiftDays, formatDate, formatTime, daysUntil,
 } from "./modules/dates.js";
+import { THEMES, DEFAULT_THEME, applyTheme } from "./modules/theme.js";
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -72,6 +73,22 @@ function leaveDerived() {
       (over ? " — beyond Google's 28-day reminder ceiling" : ""),
     bad: over,
   };
+}
+
+/* The editor wears the theme it is editing, and the preview link opens in
+   it, so a choice can be seen before the file is downloaded. */
+function previewTheme(id) {
+  const theme = applyTheme(id || DEFAULT_THEME);
+  const preview = document.querySelector('.bar__actions a[href^="index.html"]');
+  if (preview) preview.href = `index.html?theme=${encodeURIComponent(theme.id)}`;
+}
+
+function themeDerived() {
+  const theme = THEMES.find((t) => t.id === data.meta?.theme);
+  if (!theme) {
+    return { text: `Unknown theme — falling back to ${DEFAULT_THEME}.`, bad: true };
+  }
+  return { text: theme.note, bad: false };
 }
 
 function deadlineDerived() {
@@ -177,9 +194,11 @@ function field(scope, f) {
   };
 
   input.addEventListener("input", () => {
-    set(scope, f.path, read());
+    const value = read();
+    set(scope, f.path, value);
     if (swatch && /^#[0-9a-f]{6}$/i.test(input.value)) swatch.value = input.value;
     refresh();
+    f.apply?.(value);          // for fields the editor itself reacts to
     touched(f.rerender);
   });
 
@@ -278,7 +297,10 @@ const SPEC = [
       { path: "meta.locale", label: "Page language (lang attribute)" },
       { path: "meta.dateLocale", label: "Date formatting locale",
         hint: "Kept separate because en-LK resolves to bare en in browsers, which prints the month first. en-GB gives day-month-year." },
-      { path: "meta.themeColor", label: "Browser theme colour", type: "color" },
+      { path: "meta.theme", label: "Theme", type: "select", wide: true,
+        options: () => THEMES.map((t) => ({ value: t.id, label: t.label })),
+        derive: themeDerived, apply: previewTheme,
+        hint: "Dresses the whole invitation. The editor changes colour with it, and Preview page opens in it. The browser's own chrome colour follows the theme too, so there is nothing else to set." },
     ],
   },
 
@@ -632,6 +654,8 @@ function toast(message) {
 function adopt(json, label) {
   data = json;
   data.meta.dateLocale = data.meta.dateLocale || data.meta.locale;
+  data.meta.theme = data.meta.theme || DEFAULT_THEME;
+  previewTheme(data.meta.theme);
   pristine = serialise();
   sourceLabel = label;
   $("#source").textContent = label;

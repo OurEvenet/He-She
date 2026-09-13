@@ -5,10 +5,10 @@
     "description": "Dinuka Rajapaksha and Sanduni Weerakoon invite you to their wedding at Waters Edge, Battaramulla, on Saturday 20 February 2027.",
     "locale": "en-LK",
     "dateLocale": "en-GB",
+    "theme": "kandyan",
     "timezone": "Asia/Colombo",
     "url": "https://example.github.io/wedding/",
-    "ogImage": "assets/img/og.jpg",
-    "themeColor": "#22463C"
+    "ogImage": "assets/img/og.jpg"
   },
   "images": {
     "hero": {

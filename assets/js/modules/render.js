@@ -52,7 +52,13 @@ export function renderHead(c) {
   };
 
   set('meta[name="description"]', "content", meta.description);
-  set('meta[name="theme-color"]', "content", meta.themeColor);
+
+  // The colour the browser paints its own chrome follows the theme rather
+  // than a value in the JSON: a maroon page under a green address bar is
+  // the kind of mismatch nobody spots until it is on a phone.
+  const surface = getComputedStyle(document.documentElement)
+    .getPropertyValue("--poruwa").trim();
+  set('meta[name="theme-color"]', "content", surface || meta.themeColor || "#22463C");
   set('meta[property="og:title"]', "content", meta.siteTitle);
   set('meta[property="og:description"]', "content", meta.description);
   set('meta[property="og:url"]', "content", meta.url);

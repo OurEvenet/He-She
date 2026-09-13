@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="A ceremonial fan" focusable="false">
+  <title>A ceremonial fan</title>
+  <path d="M100 30 A6 6 0 0 1 123.94 34.22 A6 6 0 0 1 145 46.38 A6 6 0 0 1 160.62 65 A6 6 0 0 1 168.94 87.84 A6 6 0 0 1 168.94 112.16 A6 6 0 0 1 160.62 135 A6 6 0 0 1 145 153.62 A6 6 0 0 1 123.94 165.78 A6 6 0 0 1 100 170 A6 6 0 0 1 76.06 165.78 A6 6 0 0 1 55 153.62 A6 6 0 0 1 39.38 135 A6 6 0 0 1 31.06 112.16 A6 6 0 0 1 31.06 87.84 A6 6 0 0 1 39.38 65 A6 6 0 0 1 55 46.38 A6 6 0 0 1 76.06 34.22 A6 6 0 0 1 100 30 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" pathLength="1" data-draw="1"/>
+<g data-turn="" style="transform-origin:100px 100px">
+  <path d="M103.82 78.33 L110.77 38.94" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M111 80.95 L131 46.31" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M116.85 85.86 L147.49 60.15" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M120.67 92.48 L158.26 78.79" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M122 100 L162 100" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M120.67 107.52 L158.26 121.21" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M116.85 114.14 L147.49 139.85" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M111 119.05 L131 153.69" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M103.82 121.67 L110.77 161.06" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M96.18 121.67 L89.23 161.06" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M89 119.05 L69 153.69" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M83.15 114.14 L52.51 139.85" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M79.33 107.52 L41.74 121.21" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M78 100 L38 100" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M79.33 92.48 L41.74 78.79" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M83.15 85.86 L52.51 60.15" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M89 80.95 L69 46.31" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <path d="M96.18 78.33 L89.23 38.94" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" data-fade=""/>
+  <circle cx="100" cy="100" r="22" fill="none" stroke="currentColor" stroke-width="1.6" pathLength="1" data-draw="2"/>
+  <circle cx="100" cy="100" r="9" fill="currentColor" data-fade=""/>
+</g>
+</svg>
