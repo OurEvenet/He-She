@@ -156,15 +156,26 @@ reminder at 20160 minutes — exactly fourteen days, and within Google's
 
 ## Images
 
-Nine pictures are included, rendered by `tools/make-images.py`: a lamp lit in
-a dark room, hill country going blue at dusk, araliya on a cloth, the lakeside
-at the hour the reception starts, the poruwa dressed in white and gold. They
-are drawn from numbers — light first, then shape, then the grain and falloff
-that stop a rendered image looking rendered — so the page has real subject
-matter in it from the first commit rather than coloured rectangles.
+Nine **real photographs** ship with the site — a paper lantern lit in a dark
+doorway, a pier at sunset, a valley between granite cliffs, ferns, petals.
+They are stand-ins, there so the page is a finished thing you can look at,
+and they are meant to be replaced with yours.
 
-They are **original artwork, not photographs**, and they are meant to be
-replaced. Nothing here is traced from or derived from anyone else's picture.
+All nine are freely licensed (CC0, or the Unsplash licence) and come from
+[elementary/wallpapers](https://github.com/elementary/wallpapers), which
+publishes its per-photograph licensing. Photographer, source and licence for
+each one are in [`assets/img/CREDITS.md`](assets/img/CREDITS.md). None of
+them requires attribution; they are credited anyway.
+
+The slot names say what *should* go in them, not what is in them now: no
+freely licensed photograph of a poruwa or a wedding lunch was reachable, so
+those slots carry the nearest real thing and the alt text describes what is
+actually in the picture. Nothing on the page claims to be something it is not.
+
+`tools/make-images.py` still renders a complete set of **original artwork**
+instead — a lamp lit in the dark, hill country at dusk, araliya on a cloth —
+if you would rather ship drawings than someone else's photographs. That set
+carries no third-party licence at all.
 
 ### Putting your own photographs in
 
