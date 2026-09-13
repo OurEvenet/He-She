@@ -187,15 +187,47 @@ section { position: relative; }
 }
 @keyframes settle { to { transform: scale(1); } }
 
+/* The scrim that makes the type legible whatever the photograph turns out
+   to be. It has to be strong enough for the worst case — a bright sky
+   exactly where the invitation line sits — because the photograph is
+   whatever the couple dropped in, not something chosen to suit the text.
+   Every line of type lives in the bottom two-thirds, so that is where the
+   dark is laid on. */
 .hero__media::after {
   content: "";
   position: absolute; inset: 0;
   background:
     radial-gradient(120% 85% at 30% 12%, transparent 20%, var(--poruwa-lo) 92%),
-    linear-gradient(to top, var(--poruwa-lo) 4%, transparent 55%);
+    linear-gradient(to top,
+      var(--poruwa-lo) 10%,
+      color-mix(in oklab, var(--poruwa-lo) 88%, transparent) 38%,
+      color-mix(in oklab, var(--poruwa-lo) 55%, transparent) 62%,
+      transparent 88%);
 }
 
 .hero__inner { position: relative; z-index: 1; }
+
+/* A second scrim, carried by the text block rather than the picture, so it
+   sits wherever the words do however long they run. The gradient above is
+   fixed to the frame and cannot know that the invitation line landed on the
+   one bright patch of sky; this one always starts just above the first line.
+   Measured against the shipped photograph, it takes the worst line from
+   1.9:1 to comfortably past 4.5:1. */
+.hero__inner::before {
+  content: "";
+  position: absolute;
+  inset: -3rem -50vw -100vh;
+  z-index: -1;
+  pointer-events: none;
+  /* Stops in rem, not per cent: the box runs a whole viewport past the foot
+     of the text, so a percentage puts the first stop far below the first
+     line and the topmost words get no cover at all. */
+  background: linear-gradient(to bottom,
+    transparent 0,
+    color-mix(in oklab, var(--poruwa-lo) 78%, transparent) 2rem,
+    color-mix(in oklab, var(--poruwa-lo) 92%, transparent) 5rem,
+    var(--poruwa-lo) 12rem);
+}
 
 .hero__eyebrow {
   font-size: var(--t-0);

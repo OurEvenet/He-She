@@ -1,4 +1,4 @@
-import sys, json, glob
+import sys, json, glob, re
 from playwright.sync_api import sync_playwright
 
 BASE = "http://localhost:8811/index.html"
@@ -111,6 +111,59 @@ with sync_playwright() as pw:
             print(f"{page_name} @{width}: sideways-scroll={r['hscroll']} "
                   f"({r['scrollWidth']}px) small-targets={len(r['small'])} {r['small'][:4]}")
             ap.close()
+
+    # --- Type on the hero photograph -------------------------------------
+    # The one place the page puts text over a picture it did not choose.
+    # Whatever the couple drops in, every line has to stay readable, so the
+    # real rendered pixels behind each line are measured rather than assumed:
+    # the type is hidden, the frame is shot, and the brightest pixel inside
+    # each line's own box is contrasted against the colour that line is
+    # painted in.
+    def luminance(c):
+        f = lambda v: (v / 255) / 12.92 if v / 255 <= 0.04045 else (((v / 255) + 0.055) / 1.055) ** 2.4
+        return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2])
+
+    try:
+        from PIL import Image
+    except ImportError:
+        print("\n(hero contrast check needs Pillow)")
+    else:
+        print()
+        for width, height, label in ((390, 844, "phone"), (1440, 900, "desktop")):
+            hp = b.new_page(viewport={"width": width, "height": height}, has_touch=width < 800)
+            hp.goto(BASE, wait_until="networkidle")
+            hp.wait_for_timeout(2800)
+            lines = hp.evaluate("""() =>
+              [...document.querySelectorAll('.hero__eyebrow,.names,.hero__meta strong,.hero__line')]
+                .map(el => { const r = el.getBoundingClientRect();
+                  return { sel: (el.className || el.tagName).split(' ')[0],
+                           top: Math.round(r.top), bottom: Math.round(r.bottom),
+                           left: Math.round(r.left), right: Math.round(r.right),
+                           colour: getComputedStyle(el).color }; })""")
+            # Hide the children, not .hero__inner itself: visibility is
+            # inherited, and the scrim being measured is its ::before.
+            hp.evaluate("document.querySelectorAll('.hero__inner > *')"
+                        ".forEach(e => e.style.visibility = 'hidden')")
+            hp.wait_for_timeout(250)
+            hp.screenshot(path=f"{OUT}/hero-bg-{label}.png")
+            hp.close()
+
+            sheet = Image.open(f"{OUT}/hero-bg-{label}.png").convert("RGB")
+            worst, worst_at = 99.0, ""
+            for line in lines:
+                box = (max(0, line["left"]), max(0, line["top"]),
+                       min(sheet.width, line["right"]), min(sheet.height, line["bottom"]))
+                if box[2] - box[0] < 2 or box[3] - box[1] < 2:
+                    continue
+                text = tuple(int(v) for v in re.findall(r"\d+", line["colour"])[:3])
+                bright = max(sheet.crop(box).getdata(), key=luminance)
+                lo, hi = sorted((luminance(text), luminance(bright)))
+                got = (hi + 0.05) / (lo + 0.05)
+                if got < worst:
+                    worst, worst_at = got, line["sel"]
+            verdict = "ok" if worst >= 4.5 else "TOO LOW"
+            print(f"hero type on the photograph @{label}: worst {worst:.2f}:1 "
+                  f"({worst_at}) {verdict}")
 
     # --- Every theme, and the artwork it hangs on the page ---------------
     # A theme is a whole second (third, fourth) design to get wrong, and the

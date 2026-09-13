@@ -156,9 +156,26 @@ reminder at 20160 minutes — exactly fourteen days, and within Google's
 
 ## Images
 
-Nine placeholders are included, generated in the site palette at the right
-dimensions. They are there so the layout is finished before the photographs
-are, and they are meant to be replaced.
+Nine **real photographs** ship with the site — a paper lantern lit in a dark
+doorway, a pier at sunset, a valley between granite cliffs, ferns, petals.
+They are stand-ins, there so the page is a finished thing you can look at,
+and they are meant to be replaced with yours.
+
+All nine are freely licensed (CC0, or the Unsplash licence) and come from
+[elementary/wallpapers](https://github.com/elementary/wallpapers), which
+publishes its per-photograph licensing. Photographer, source and licence for
+each one are in [`assets/img/CREDITS.md`](assets/img/CREDITS.md). None of
+them requires attribution; they are credited anyway.
+
+The slot names say what *should* go in them, not what is in them now: no
+freely licensed photograph of a poruwa or a wedding lunch was reachable, so
+those slots carry the nearest real thing and the alt text describes what is
+actually in the picture. Nothing on the page claims to be something it is not.
+
+`tools/make-images.py` still renders a complete set of **original artwork**
+instead — a lamp lit in the dark, hill country at dusk, araliya on a cloth —
+if you would rather ship drawings than someone else's photographs. That set
+carries no third-party licence at all.
 
 ### Putting your own photographs in
 
@@ -214,7 +231,7 @@ the photograph is now of the cake.
 ### The rest of the imagery
 
 ```
-python3 tools/make-images.py     # regenerate the placeholders
+python3 tools/make-images.py     # re-render the nine scenes (needs numpy)
 python3 tools/make-icons.py      # regenerate the home-screen icons
 python3 tools/sync-lqip.py       # push image metadata into wedding.json
 ```
@@ -263,7 +280,7 @@ assets/js/modules/
 tools/import-photos.py        real photographs in, web-sized files out
 tools/make-ornaments.py       draws the ornament set
 tools/check-contrast.py       asserts every theme is legible
-tools/make-images.py          regenerates placeholder imagery
+tools/make-images.py          renders the nine scenes the site ships with
 tools/make-icons.py           regenerates the home-screen icons
 tools/sync-lqip.py            writes image metadata into the JSON
 tools/shots.py                screenshots + smoke tests (needs playwright)
