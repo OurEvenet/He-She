@@ -156,9 +156,15 @@ reminder at 20160 minutes — exactly fourteen days, and within Google's
 
 ## Images
 
-Nine placeholders are included, generated in the site palette at the right
-dimensions. They are there so the layout is finished before the photographs
-are, and they are meant to be replaced.
+Nine pictures are included, rendered by `tools/make-images.py`: a lamp lit in
+a dark room, hill country going blue at dusk, araliya on a cloth, the lakeside
+at the hour the reception starts, the poruwa dressed in white and gold. They
+are drawn from numbers — light first, then shape, then the grain and falloff
+that stop a rendered image looking rendered — so the page has real subject
+matter in it from the first commit rather than coloured rectangles.
+
+They are **original artwork, not photographs**, and they are meant to be
+replaced. Nothing here is traced from or derived from anyone else's picture.
 
 ### Putting your own photographs in
 
@@ -214,7 +220,7 @@ the photograph is now of the cake.
 ### The rest of the imagery
 
 ```
-python3 tools/make-images.py     # regenerate the placeholders
+python3 tools/make-images.py     # re-render the nine scenes (needs numpy)
 python3 tools/make-icons.py      # regenerate the home-screen icons
 python3 tools/sync-lqip.py       # push image metadata into wedding.json
 ```
@@ -263,7 +269,7 @@ assets/js/modules/
 tools/import-photos.py        real photographs in, web-sized files out
 tools/make-ornaments.py       draws the ornament set
 tools/check-contrast.py       asserts every theme is legible
-tools/make-images.py          regenerates placeholder imagery
+tools/make-images.py          renders the nine scenes the site ships with
 tools/make-icons.py           regenerates the home-screen icons
 tools/sync-lqip.py            writes image metadata into the JSON
 tools/shots.py                screenshots + smoke tests (needs playwright)
