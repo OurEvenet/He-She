@@ -1,0 +1,103 @@
+@import url("tokens.css");
+
+/* ---------------------------------------------------------------
+   The picker page. Deliberately plain: it is scaffolding for the
+   couple, not something a guest is ever sent, so it stays out of
+   the way of the seven designs it is showing.
+   --------------------------------------------------------------- */
+
+:root {
+  --bg: #f6f4ef;
+  --card: #fff;
+  --ink: #211f1b;
+  --soft: #5d584f;
+  --accent: #7a5a1a;
+  --line: #ddd7c9;
+  --edge: clamp(1.25rem, 5vw, 3rem);
+  --tap: 2.75rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+[hidden] { display: none !important; }
+
+html { font-size: 106.25%; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--text);
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, svg { display: block; max-width: 100%; }
+:where(a) { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: #ebe7dc; padding: 0.1em 0.35em; border-radius: 0.2rem;
+}
+
+.wrap { width: min(64rem, 100% - var(--edge) * 2); margin-inline: auto; }
+
+.top {
+  padding-block: calc(clamp(2.5rem, 8vw, 4.5rem) + env(safe-area-inset-top, 0px))
+                 clamp(2rem, 6vw, 3rem);
+}
+.tag {
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+.top h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(2rem, 7vw, 3.2rem); line-height: 1.1;
+}
+.top__when { color: var(--soft); margin-top: 0.4rem; }
+.top__note { color: var(--soft); max-width: 52ch; margin-top: 1.5rem; font-size: 0.95rem; }
+
+.cards {
+  list-style: none; padding: 0;
+  display: grid; gap: clamp(0.75rem, 2vw, 1.25rem);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 38rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 60rem) { .cards { grid-template-columns: repeat(3, 1fr); } }
+
+.card a {
+  display: grid; gap: 0.5rem; height: 100%;
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  background: var(--card); border: 1px solid var(--line); border-radius: 0.7rem;
+  text-decoration: none;
+  transition: border-color 200ms, transform 200ms;
+}
+@media (hover: hover) and (pointer: fine) {
+  .card a:hover { border-color: var(--accent); transform: translateY(-2px); }
+}
+.card__swatch { display: flex; gap: 0.3rem; margin-bottom: 0.4rem; }
+.card__swatch i {
+  width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / 12%);
+}
+.card h2 { font-family: var(--display); font-weight: 400; font-size: 1.4rem; line-height: 1.2; }
+.card p { color: var(--soft); font-size: 0.9rem; }
+.card__go {
+  margin-top: auto; padding-top: 0.6rem;
+  display: flex; align-items: center; min-height: var(--tap);
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
+}
+
+.foot {
+  padding-block: clamp(2.5rem, 7vw, 4rem)
+                 calc(clamp(2.5rem, 7vw, 4rem) + env(safe-area-inset-bottom, 0px));
+  color: var(--soft); font-size: 0.9rem;
+}
+.foot p { max-width: 60ch; }
+
+.boot { padding: 3rem var(--edge); color: var(--soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 1ms !important; }
+}

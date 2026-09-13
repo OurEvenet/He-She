@@ -28,6 +28,15 @@
 
   --edge: clamp(1.15rem, 5vw, 4rem);
   --tap: 2.75rem;
+
+  /* The handful of names assets/css/parts.css reads. See its header. */
+  --ui-bg: var(--black);
+  --ui-ink: var(--bone);
+  --ui-soft: var(--bone-dim);
+  --ui-accent: var(--amber);
+  --ui-on-accent: #17150f;
+  --ui-line: var(--line);
+  --ui-cover: var(--black);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -106,9 +115,11 @@ p { text-wrap: pretty; }
 }
 .names span { display: block; }
 .names__amp { color: var(--amber); font-style: italic; font-size: 0.5em; line-height: 1; }
+/* Full bone rather than the dimmed one: it sits over the lightest part
+   of the photograph, where the dim bone measures 4.1:1. */
 .hero__line {
   max-width: 34ch; margin-top: 1.5rem;
-  color: var(--bone-dim); font-size: 1.05rem;
+  color: var(--bone); font-size: 1.05rem;
 }
 
 /* --- Countdown --------------------------------------------------- */

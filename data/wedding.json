@@ -8,7 +8,8 @@
     "theme": "kandyan",
     "timezone": "Asia/Colombo",
     "url": "https://example.github.io/wedding/",
-    "ogImage": "assets/img/og.jpg"
+    "ogImage": "assets/img/og.jpg",
+    "private": true
   },
   "images": {
     "hero": {
@@ -88,7 +89,8 @@
     },
     "dateLine": "Saturday, the twentieth of February, two thousand and twenty-seven",
     "hero": "We are getting married, and the day would be thinner without you in it.",
-    "invite": "Nimal & Chandrika Rajapaksha, and Sunil & Kumari Weerakoon, invite you to the marriage of their children"
+    "invite": "Nimal & Chandrika Rajapaksha, and Sunil & Kumari Weerakoon, invite you to the marriage of their children",
+    "hashtag": "#DinukaAndSanduni"
   },
   "letter": {
     "heading": "A note before the noise starts",
@@ -290,5 +292,52 @@
       "role": "Travel, rooms, directions",
       "phone": "+94 71 000 0000"
     }
-  ]
+  ],
+  "envelope": {
+    "enabled": true,
+    "text": "Open the invitation",
+    "salutation": "Together with our families"
+  },
+  "music": {
+    "src": "",
+    "title": "",
+    "autoOnOpen": true
+  },
+  "storyHeading": "How we got here",
+  "story": [
+    {
+      "date": "March 2019",
+      "title": "A queue at Galle Face",
+      "body": "Dinuka was buying isso wade for four people he had not met. Sanduni was one of them. He got the order wrong and she has never let it go."
+    },
+    {
+      "date": "August 2021",
+      "title": "The year of the phone calls",
+      "body": "Two cities, one curfew, and a standing nine o'clock call that neither of us ever missed. It turns out you learn a person faster without a restaurant to hide behind."
+    },
+    {
+      "date": "December 2023",
+      "title": "A flat with a bad kettle",
+      "body": "We moved in together, inherited a kettle that whistles at nothing, and kept it. It is coming to the new place too."
+    },
+    {
+      "date": "April 2026",
+      "title": "Asking, badly",
+      "body": "On the Kandy train, somewhere after Peradeniya, with a speech that had been rehearsed for a month and lasted four words."
+    }
+  ],
+  "gifts": {
+    "enabled": true,
+    "heading": "If you were going to ask",
+    "message": "You being in the room is the whole point — there is genuinely nothing we need. If you would rather not come empty-handed, the details are behind the button.",
+    "buttonText": "View the bank details",
+    "bank": {
+      "bankName": "Commercial Bank of Ceylon",
+      "accountName": "D. Rajapaksha & S. Weerakoon",
+      "accountNumber": "8001234567",
+      "branch": "Battaramulla"
+    },
+    "registryUrl": "",
+    "registryText": ""
+  }
 }

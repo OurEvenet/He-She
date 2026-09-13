@@ -17,7 +17,10 @@
   --ivory-dim: #f3ede1;
   --ink:       #2b2721;
   --ink-soft:  #6b6257;
-  --gold:      #a8802f;   /* dark enough to carry text on ivory */
+  /* Measured, not guessed: #a8802f reads 3.4:1 on ivory and 3.1:1 on the
+     tint band — it looked like gold and failed as text. This one clears
+     4.6:1 on both, and carries white at 5.4:1 on a button. */
+  --gold:      #8a6416;
   --gold-lit:  #d8b262;
   --dark:      #24201b;
   --on-dark:   #f6f1e8;
@@ -28,6 +31,15 @@
 
   --edge: clamp(1.25rem, 5vw, 3rem);
   --tap: 2.75rem;
+
+  /* The handful of names assets/css/parts.css reads. See its header. */
+  --ui-bg: var(--ivory);
+  --ui-ink: var(--ink);
+  --ui-soft: var(--ink-soft);
+  --ui-accent: var(--gold);
+  --ui-on-accent: #fff;
+  --ui-line: var(--line);
+  --ui-cover: var(--dark);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -244,7 +256,7 @@ p { text-wrap: pretty; }
   background: transparent; color: var(--gold);
   border-color: color-mix(in oklab, var(--gold) 55%, transparent);
 }
-.hero .btn--quiet, .band--dark .btn--quiet { color: var(--gold-lit); border-color: color-mix(in oklab, var(--gold-lit) 55%, transparent); }
+.hero .btn--quiet, .band--dark .btn--quiet, .foot .btn--quiet { color: var(--gold-lit); border-color: color-mix(in oklab, var(--gold-lit) 55%, transparent); }
 @media (hover: hover) and (pointer: fine) {
   .btn--quiet:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
 }
@@ -426,6 +438,9 @@ p { text-wrap: pretty; }
   background: var(--dark); color: var(--on-dark-soft);
   padding-block: clamp(3rem, 8vw, 5rem) calc(clamp(3rem, 8vw, 5rem) + env(safe-area-inset-bottom, 0px));
 }
+/* The dark footer needs the lit gold: the text gold is dark enough to
+   carry ivory but only reaches 3.0:1 against #24201b. */
+.foot { --ui-accent: var(--gold-lit); }
 .foot .monogram { margin-bottom: 1rem; }
 .foot__names { font-family: var(--display); font-size: clamp(1.6rem, 5vw, 2.4rem); color: var(--on-dark); }
 .foot__date { margin-top: 0.4rem; }

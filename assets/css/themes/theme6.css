@@ -1,0 +1,189 @@
+@import url("base.css");
+
+/* ---------------------------------------------------------------
+   Theme 6 — Batik. Saturated, and local.
+
+   Two grounds rather than one: chalk for reading, and a teal field
+   carrying a batik-derived tile for the hero, the venue and the
+   foot. Madder is the accent on chalk; turmeric is the accent on
+   teal. Neither is used on the other, and the reason is measured:
+
+     madder on chalk        6.5:1
+     chalk on teal          7.7:1
+     chalk-dim on teal      5.9:1
+     lit turmeric on teal   4.9:1
+     flat turmeric on teal  3.8:1  — borders and large figures only
+
+   The field is a tiling SVG written into the stylesheet: no request,
+   no image file, sharp at any pixel density.
+   --------------------------------------------------------------- */
+
+:root {
+  --teal:     #0c5350;
+  --teal-lo:  #083b39;
+  --madder:   #9e2b20;
+  --turmeric: #d7a22a;
+  --chalk:    #f3efe6;
+  --chalk-dim:#d8d2c3;
+
+  /* base.css reads these */
+  --bg: var(--chalk);
+  --bg-alt: #ebe5d8;
+  --surface: #fffdf8;
+  --ink: #262019;
+  --ink-soft: #5d554a;
+  --accent: var(--madder);
+  --on-accent: var(--chalk);
+  --line: #ddd5c4;
+  --field-line: #7d7568;
+  --alarm: #9e2b20;
+
+  --round: 0;
+  --btn-round: 0;
+
+  /* parts.css reads these */
+  --ui-bg: var(--chalk);
+  --ui-ink: #262019;
+  --ui-soft: #5d554a;
+  --ui-accent: var(--madder);
+  --ui-on-accent: var(--chalk);
+  --ui-line: #ddd5c4;
+  --ui-cover: var(--teal);
+}
+
+h1, h2, h3 { font-variation-settings: "SOFT" 70, "WONK" 1; }
+
+.rule {
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+  width: min(18rem, 75%); margin: 1.2rem auto 2rem;
+  color: var(--madder);
+}
+.rule i { flex: 1; height: 2px; background: currentColor; opacity: 0.6; }
+.rule b { width: 8px; height: 8px; background: var(--turmeric); transform: rotate(45deg); }
+
+/* --- The field ----------------------------------------------------
+   A tile with a full motif at its centre and quarter motifs at its
+   corners, so it repeats without a visible seam. */
+
+.field {
+  background-color: var(--teal);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23d7a22a' stroke-width='1.2' opacity='0.22'%3E%3Ccircle cx='40' cy='40' r='11'/%3E%3Ccircle cx='40' cy='40' r='4'/%3E%3Ccircle cx='0' cy='0' r='11'/%3E%3Ccircle cx='80' cy='0' r='11'/%3E%3Ccircle cx='0' cy='80' r='11'/%3E%3Ccircle cx='80' cy='80' r='11'/%3E%3Cpath d='M40 0v14M40 66v14M0 40h14M66 40h14'/%3E%3C/g%3E%3Cg fill='%23d7a22a' opacity='0.18'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3Ccircle cx='60' cy='20' r='2'/%3E%3Ccircle cx='20' cy='60' r='2'/%3E%3Ccircle cx='60' cy='60' r='2'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  background-repeat: repeat;
+
+  /* The field is a second ground, so it redefines the tokens rather
+     than re-colouring thirty selectors one at a time. Everything
+     inside it — the countdown, the buttons, the notes, the contacts —
+     then follows without knowing it is on teal.
+
+     The accent here is the lit turmeric, not the flat one: the flat
+     #d7a22a measures 3.8:1 on teal, which is enough for a heading or
+     a border but not for the 14px bold label on a quiet button. The
+     lit one measures 4.9:1 and carries all of them. */
+  --ink: var(--chalk);
+  --ink-soft: var(--chalk-dim);
+  --accent: #e8bc55;
+  --on-accent: #241a05;
+  --line: color-mix(in oklab, #e8bc55 40%, transparent);
+  --field-line: #b9b0a0;
+  color: var(--chalk);
+}
+.field .rule b { background: var(--chalk); }
+
+/* --- Hero ---------------------------------------------------------- */
+/* The pattern is the brightest thing on the page, and the hero is the
+   one place small text sits directly on it. A third-strength teal
+   veil over the tile, and a lit soft-ink, take the worst pixel
+   behind the invitation line from 3.2:1 to over 5:1. */
+
+.hero {
+  position: relative;
+  --ink-soft: #f0ebde;
+  min-height: 100svh; display: grid; place-content: center;
+  padding: calc(3.5rem + env(safe-area-inset-top, 0px)) 0
+           calc(3.5rem + env(safe-area-inset-bottom, 0px));
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background: color-mix(in oklab, var(--teal) 32%, transparent);
+}
+.hero > .wrap { position: relative; z-index: 1; }
+/* Not a label — it is the whole invitation sentence, so it is set as
+   text rather than as an accent. Turmeric would read 4.1:1 here. */
+.hero .eyebrow {
+  color: var(--ink-soft);
+  letter-spacing: 0.18em; max-width: 34ch; margin-inline: auto;
+  line-height: 1.7; text-transform: none; font-size: 0.85rem;
+}
+.names {
+  font-family: var(--display); font-weight: 400;
+  font-variation-settings: "SOFT" 30, "WONK" 1, "opsz" 144;
+  font-size: clamp(2.9rem, 13vw, 6.5rem);
+  line-height: 1.02; letter-spacing: -0.02em;
+  margin: 0.7rem 0 0.9rem;
+}
+.names em {
+  display: block; font-size: 0.28em; font-style: italic;
+  letter-spacing: 0.1em; color: var(--turmeric); margin: 0.2em 0;
+}
+.hero__date { font-size: 1.05rem; }
+.hero__where { color: var(--ink-soft); margin-top: 0.25rem; }
+
+/* --- The day, as tiles --------------------------------------------- */
+
+.tiles {
+  display: grid; gap: clamp(0.9rem, 2.5vw, 1.4rem);
+  grid-template-columns: 1fr; margin-top: 2.5rem; text-align: left;
+}
+@media (min-width: 44rem) { .tiles { grid-template-columns: repeat(3, 1fr); } }
+.tiles article {
+  position: relative; overflow: hidden;
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-top: 4px solid var(--madder);
+  padding: clamp(1.3rem, 3.5vw, 1.9rem);
+}
+.tiles__n {
+  position: absolute; top: 0.2rem; right: 0.7rem;
+  font-family: var(--display); font-size: 3.2rem; line-height: 1;
+  color: color-mix(in oklab, var(--turmeric) 32%, transparent);
+}
+.tiles__time {
+  font-family: var(--display); font-size: 1.5rem; line-height: 1;
+  color: var(--madder); font-variant-numeric: tabular-nums;
+}
+.tiles__time span { display: block; font-family: var(--text); font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.3rem; }
+.tiles h3 { margin-top: 0.9rem; }
+.tiles__text { color: var(--ink-soft); margin-top: 0.3rem; }
+.note { margin-top: 0.8rem; padding-left: 0.85rem; border-left: 3px solid var(--turmeric); color: var(--ink); font-size: 0.92rem; }
+.dress { margin-top: 0.9rem; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--madder); }
+
+/* --- Photographs ---------------------------------------------------- */
+
+.quilt {
+  display: grid; gap: clamp(0.5rem, 1.6vw, 0.85rem);
+  grid-template-columns: repeat(2, 1fr); margin-top: 2.2rem;
+}
+@media (min-width: 52rem) {
+  .quilt { grid-template-columns: repeat(3, 1fr); }
+  .quilt figure:nth-child(4n + 1) { grid-column: span 2; }
+  .quilt figure:nth-child(4n + 1) .frame { --ar: 3 / 2; }
+}
+.quilt .frame { border: 2px solid var(--line); }
+.quilt figcaption { text-align: center; }
+
+/* --- Reply, questions, foot ------------------------------------------ */
+
+.card {
+  margin-top: 2.5rem; background: var(--surface);
+  border: 2px solid var(--line); border-top: 4px solid var(--madder);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+.rsvp__count { background: var(--surface); border-width: 2px; }
+
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-of-type { border-bottom: 1px solid var(--line); }
+
+.venue__hall { margin-top: 0.4rem; }
+.venue__street { margin-top: 0.4rem; }
+

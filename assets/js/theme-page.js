@@ -21,6 +21,10 @@ import { initRsvp } from "./modules/rsvp.js";
 import { initShare } from "./modules/share.js";
 import { initLightbox } from "./modules/lightbox.js";
 import { initCountdown } from "./modules/countdown.js";
+import { initGifts } from "./modules/sections.js";
+import { initMusic } from "./modules/music.js";
+import { initEnvelope } from "./modules/envelope.js";
+import { readGuest, prefillReply } from "./modules/guest.js";
 import { buildEntries, downloadICS, icsFilename } from "./modules/calendar.js";
 
 /** Reveals the page once the first photograph has actually decoded. */
@@ -47,8 +51,8 @@ function fail(err) {
 }
 
 /**
- * @param {(config: object) => void} paint  writes the theme's markup
- *   into the document. Everything below is wired afterwards.
+ * @param {(config: object, guest: object|null) => void} paint  writes the
+ *   theme's markup into the document. Everything below is wired afterwards.
  */
 export function bootTheme(paint) {
   return (async () => {
@@ -59,18 +63,28 @@ export function bootTheme(paint) {
     const config = await res.json();
     config.meta.dateLocale = config.meta.dateLocale || config.meta.locale;
 
-    renderHead(config);
-    paint(config);
+    // Who this link was addressed to, if anybody. Read before paint, so
+    // a theme can greet them in the hero as well as on the cover.
+    const guest = readGuest(config);
 
+    renderHead(config);
+    paint(config, guest);
+
+    const rsvpRoot = document.getElementById("rsvp") || document;
     initImages(document);
     initCountdown(document, config);
-    initRsvp(document.getElementById("rsvp") || document, config);
+    initRsvp(rsvpRoot, config);
+    prefillReply(rsvpRoot, guest);
     initShare(document, config);
+    initGifts(document);
     initLightbox(
       document.getElementById("lightbox"),
       document.getElementById("gallery") || document,
       config
     );
+
+    // The cover, and the music its tap is allowed to start
+    initEnvelope(config, guest, initMusic(config));
 
     // The calendar, offered wherever a theme put the button
     const entries = buildEntries(config);

@@ -1,10 +1,14 @@
 /* ---------------------------------------------------------------
-   Theme 3 — Botanical.
+   Theme 6 — Batik. Saturated, and local.
 
-   The light one. Cream and sage rather than a dark hero: the
-   photograph sits in an arch at the top of the page instead of
-   behind the type, which means the type is on paper and always
-   legible, whatever photograph goes in.
+   The one with colour in it. A batik-derived field runs full bleed
+   behind the hero and behind the venue, in teal and turmeric, with
+   the names reversed out in chalk; between those two bands the page
+   is quiet chalk with madder rules, so the pattern reads as an event
+   rather than as wallpaper.
+
+   The field is drawn in CSS as a tiling SVG, so it costs no request
+   and stays sharp at any density.
 
    Same contract as every theme — #rsvp, [data-photo="n"], .frame.
    --------------------------------------------------------------- */
@@ -17,18 +21,18 @@ import { replyFormHTML, replyCountHTML } from "../modules/forms.js";
 import { countdownHTML } from "../modules/countdown.js";
 import { storyHTML, giftsHTML } from "../modules/sections.js";
 
-/** A sprig, from the ornament set, used as a section flourish. */
-const sprig = (name = "araliya") =>
-  `<img class="sprig" src="assets/svg/${name}.svg" alt="" aria-hidden="true" width="120" height="16">`;
+const two = (n) => String(n).padStart(2, "0");
+
+/** A madder rule with a turmeric diamond at the centre. */
+const rule = () => `<div class="rule" aria-hidden="true"><i></i><b></b><i></i></div>`;
 
 function paint(c) {
   const { couple, meta, events, venue, images, gallery, faq, contacts, rsvp, letter } = c;
-  const first = events[0];
-  const when = formatDate(first.start, meta.timezone, meta.dateLocale);
+  const when = formatDate(events[0].start, meta.timezone, meta.dateLocale);
 
   document.getElementById("page").innerHTML = `
 
-  <header class="hero" id="top">
+  <header class="hero field" id="top">
     <div class="wrap center">
       <p class="eyebrow">${esc(couple.invite)}</p>
       <h1 class="names">
@@ -36,62 +40,60 @@ function paint(c) {
         <em aria-hidden="true">&amp;</em>
         <span>${esc(couple.two.name)}</span>
       </h1>
-      ${sprig("liyawel")}
-      <p class="hero__date">${esc(when)} · ${esc(venue.name)}</p>
-      ${countdownHTML("until we say so")}
+      <p class="hero__date">${esc(when)}</p>
+      <p class="hero__where">${esc(venue.name)} · ${esc(venue.city)}</p>
+      ${countdownHTML("until the poruwa")}
       <div class="actions">
         <a class="btn" href="#rsvp">${esc(rsvp.heading)}</a>
         <a class="btn btn--quiet" href="#day">See the day</a>
       </div>
     </div>
-
-    <!-- The photograph sits in an arch under the type rather than behind
-         it, so nothing has to fight a bright sky to stay readable. -->
-    <div class="arch wrap">
-      ${frameHTML(images.hero, "", { eager: true, sizes: "(max-width: 46rem) 100vw, 60vw" })}
-    </div>
   </header>
 
   <main>
-    <section class="band" id="story">
-      <div class="wrap wrap--narrow card card--paper center">
-        <p class="eyebrow">${esc(letter.heading)}</p>
-        ${sprig()}
+    <section class="band" id="letter">
+      <div class="wrap wrap--narrow center">
+        <p class="eyebrow">Our note to you</p>
+        <h2>${esc(letter.heading)}</h2>
+        ${rule()}
         <div class="prose">${letter.body.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
         <p class="sign">${esc(letter.signoff)}</p>
+        ${letter.aside ? `<p class="aside">${esc(letter.aside)}</p>` : ""}
       </div>
-      ${letter.aside ? `<p class="aside wrap wrap--narrow center">${esc(letter.aside)}</p>` : ""}
     </section>
 
     ${
       c.story?.length
-        ? `<section class="band" id="story-band">
+        ? `<section class="band band--alt" id="story-band">
              <div class="wrap wrap--narrow center">
                <p class="eyebrow">Before all this</p>
                <h2>${esc(c.storyHeading || "How we got here")}</h2>
-               ${sprig()}
+               ${rule()}
              </div>
              <div class="wrap wrap--narrow">${storyHTML(c)}</div>
            </section>`
         : ""
     }
 
-    <section class="band band--sage" id="day">
+    <section class="band" id="day">
       <div class="wrap center">
-        <h2>How the day runs</h2>
-        <p class="lead">Three parts, one venue. Come to whichever you can.</p>
+        <p class="eyebrow">The order of the day</p>
+        <h2>${esc(when)}</h2>
+        ${rule()}
       </div>
-      <div class="wrap cards">
+      <div class="wrap tiles">
         ${events
           .map(
-            (ev) => `
-          <article class="card">
-            <p class="card__time">${esc(formatTime(ev.start, meta.timezone, meta.dateLocale))}</p>
-            <p class="card__until">until ${esc(formatTime(ev.end, meta.timezone, meta.dateLocale))}</p>
+            (ev, i) => `
+          <article>
+            <p class="tiles__n" aria-hidden="true">${two(i + 1)}</p>
+            <p class="tiles__time">${esc(
+              formatTime(ev.start, meta.timezone, meta.dateLocale)
+            )}<span> until ${esc(formatTime(ev.end, meta.timezone, meta.dateLocale))}</span></p>
             <h3>${esc(ev.name)}</h3>
-            <p class="card__text">${esc(ev.description)}</p>
-            ${ev.note ? `<p class="card__note">${esc(ev.note)}</p>` : ""}
-            <p class="card__dress">${esc(ev.dress)}</p>
+            <p class="tiles__text">${esc(ev.description)}</p>
+            ${ev.note ? `<p class="note">${esc(ev.note)}</p>` : ""}
+            <p class="dress">${esc(ev.dress)}</p>
           </article>`
           )
           .join("")}
@@ -103,12 +105,13 @@ function paint(c) {
       </div>
     </section>
 
-    <section class="band" id="gallery">
+    <section class="band band--alt" id="gallery">
       <div class="wrap center">
+        <p class="eyebrow">Photographs</p>
         <h2>Before the day</h2>
-        ${sprig("liyawel")}
+        ${rule()}
       </div>
-      <div class="wrap mosaic">
+      <div class="wrap quilt">
         ${gallery
           .map(
             (g, i) => `
@@ -124,60 +127,58 @@ function paint(c) {
       </div>
     </section>
 
-    <section class="band band--blush" id="venue">
-      <div class="wrap venue">
-        <div>
-          <h2>${esc(venue.name)}</h2>
-          <p class="venue__hall">${esc(venue.hall)}</p>
-          <p class="venue__street">${esc(venue.address)}</p>
-          <div class="actions actions--left">
-            <a class="btn" href="${esc(venue.directionsUrl)}" target="_blank" rel="noopener">
-              ${icon("pin")}<span>Open directions</span>
-            </a>
-            <a class="btn btn--quiet" href="${esc(venue.mapsUrl)}" target="_blank" rel="noopener">
-              <span>See it on the map</span>
-            </a>
-          </div>
+    <section class="band field" id="venue">
+      <div class="wrap center">
+        <p class="eyebrow">Getting there</p>
+        <h2>${esc(venue.name)}</h2>
+        <p class="venue__hall">${esc(venue.hall)}</p>
+        <p class="venue__street">${esc(venue.address)}</p>
+        <div class="actions">
+          <a class="btn" href="${esc(venue.directionsUrl)}" target="_blank" rel="noopener">
+            ${icon("pin")}<span>Open directions</span>
+          </a>
+          <a class="btn btn--quiet" href="${esc(venue.mapsUrl)}" target="_blank" rel="noopener">
+            <span>See it on the map</span>
+          </a>
         </div>
-        <div class="venue__photo">
-          ${frameHTML(images[venue.image], `${esc(venue.name)} from the lakeside`, {
-            sizes: "(max-width: 52rem) 100vw, 45vw",
-          })}
+        <div class="notes">
+          ${venue.notes
+            .map((n) => `<div><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p></div>`)
+            .join("")}
         </div>
-      </div>
-      <div class="wrap cards cards--notes">
-        ${venue.notes
-          .map(
-            (n) => `<article class="card card--note"><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p></article>`
-          )
-          .join("")}
       </div>
     </section>
 
     <section class="band" id="rsvp">
       <div class="wrap wrap--narrow center">
+        <p class="eyebrow">Reply</p>
         <h2>${esc(rsvp.heading)}</h2>
-        ${sprig()}
+        ${rule()}
         <p class="lead">${esc(rsvp.intro)}</p>
         ${replyCountHTML(c)}
       </div>
-      <div class="wrap wrap--narrow card card--paper">${replyFormHTML(c)}</div>
+      <div class="wrap wrap--narrow card">${replyFormHTML(c)}</div>
     </section>
 
     ${
       c.gifts?.enabled
-        ? `<section class="band" id="gifts">
+        ? `<section class="band band--alt" id="gifts">
              <div class="wrap wrap--narrow center">
+               <p class="eyebrow">Gifts</p>
                <h2>${esc(c.gifts.heading || "If you were going to ask")}</h2>
-               ${sprig("liyawel")}
+               ${rule()}
                ${giftsHTML(c)}
              </div>
            </section>`
         : ""
     }
 
-    <section class="band band--sage" id="faq">
-      <div class="wrap wrap--narrow center"><h2>Things people have asked</h2></div>
+    <section class="band" id="faq">
+      <div class="wrap wrap--narrow center">
+        <p class="eyebrow">Questions</p>
+        <h2>Things people have asked</h2>
+        ${rule()}
+      </div>
       <div class="wrap wrap--narrow faq">
         ${faq
           .map(
@@ -192,12 +193,12 @@ function paint(c) {
     </section>
   </main>
 
-  <footer class="foot">
+  <footer class="foot field">
     <div class="wrap center">
       <p class="foot__names">${esc(couple.one.name)} &amp; ${esc(couple.two.name)}</p>
       <p class="foot__date">${esc(couple.dateLine)}</p>
-      ${sprig("liyawel")}
       ${couple.hashtag ? `<p class="hashtag">${esc(couple.hashtag)}</p>` : ""}
+      ${rule()}
       <div class="contacts">
         ${contacts
           .map(

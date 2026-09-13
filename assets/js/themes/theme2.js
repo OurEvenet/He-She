@@ -16,17 +16,25 @@ import { frameHTML } from "../modules/images.js";
 import { formatDate, formatTime } from "../modules/dates.js";
 import { replyFormHTML, replyCountHTML } from "../modules/forms.js";
 import { countdownHTML } from "../modules/countdown.js";
+import { storyHTML, giftsHTML } from "../modules/sections.js";
 
 const num = (n) => String(n).padStart(2, "0");
 
+/* The numbers run in document order and are counted rather than
+   written down, because two of the sections are optional: hard-coding
+   01…06 would print a programme that skips from 02 to 04 the moment a
+   couple leaves the story out. */
+let n = 0;
+
 /** A section header: its number, its label, and the rule under both. */
-const head = (n, label, title = "") => `
+const head = (label, title = "") => `
   <header class="lead">
-    <p class="lead__num"><span aria-hidden="true">${num(n)}</span> ${esc(label)}</p>
+    <p class="lead__num"><span aria-hidden="true">${num(++n)}</span> ${esc(label)}</p>
     ${title ? `<h2>${esc(title)}</h2>` : ""}
   </header>`;
 
 function paint(c) {
+  n = 0;
   const { couple, meta, events, venue, images, gallery, faq, contacts, rsvp, letter } = c;
   const first = events[0];
   const when = formatDate(first.start, meta.timezone, meta.dateLocale);
@@ -61,7 +69,7 @@ function paint(c) {
   <main>
     <section class="band" id="story">
       <div class="wrap split">
-        ${head(1, "The note", letter.heading)}
+        ${head("The note", letter.heading)}
         <div class="split__body">
           <div class="prose">${letter.body.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
           <p class="sign">${esc(letter.signoff)}</p>
@@ -70,9 +78,20 @@ function paint(c) {
       </div>
     </section>
 
+    ${
+      c.story?.length
+        ? `<section class="band" id="story-band">
+             <div class="wrap split">
+               ${head("Before all this", c.storyHeading || "How we got here")}
+               <div class="split__body">${storyHTML(c)}</div>
+             </div>
+           </section>`
+        : ""
+    }
+
     <section class="band" id="day">
       <div class="wrap split">
-        ${head(2, "The day", when)}
+        ${head("The day", when)}
         <ol class="split__body runlist">
           ${events
             .map(
@@ -101,7 +120,7 @@ function paint(c) {
     </section>
 
     <section class="band band--flush" id="gallery">
-      <div class="wrap">${head(3, "Photographs", "Before the day")}</div>
+      <div class="wrap">${head("Photographs", "Before the day")}</div>
       <!-- A rail rather than a grid: on a phone it is one photograph at a
            time, swiped, which is how photographs are looked at there. -->
       <div class="rail" role="group" aria-label="Photographs">
@@ -122,7 +141,7 @@ function paint(c) {
 
     <section class="band" id="venue">
       <div class="wrap split">
-        ${head(4, "Getting there", venue.name)}
+        ${head("Getting there", venue.name)}
         <div class="split__body">
           <p class="venue__hall">${esc(venue.hall)}</p>
           <p class="venue__street">${esc(venue.address)}</p>
@@ -145,7 +164,7 @@ function paint(c) {
 
     <section class="band band--lit" id="rsvp">
       <div class="wrap split">
-        ${head(5, "Reply", rsvp.heading)}
+        ${head("Reply", rsvp.heading)}
         <div class="split__body">
           <p class="intro">${esc(rsvp.intro)}</p>
           ${replyCountHTML(c)}
@@ -154,9 +173,20 @@ function paint(c) {
       </div>
     </section>
 
+    ${
+      c.gifts?.enabled
+        ? `<section class="band" id="gifts">
+             <div class="wrap split">
+               ${head("Gifts", c.gifts.heading || "If you were going to ask")}
+               <div class="split__body">${giftsHTML(c)}</div>
+             </div>
+           </section>`
+        : ""
+    }
+
     <section class="band" id="faq">
       <div class="wrap split">
-        ${head(6, "Questions")}
+        ${head("Questions")}
         <div class="split__body faq">
           ${faq
             .map(
@@ -176,6 +206,7 @@ function paint(c) {
     <div class="wrap">
       <p class="foot__names">${esc(couple.one.name)} &amp; ${esc(couple.two.name)}</p>
       <p class="foot__date">${esc(couple.dateLine)}</p>
+      ${couple.hashtag ? `<p class="hashtag">${esc(couple.hashtag)}</p>` : ""}
       <div class="foot__grid">
         <div class="contacts">
           ${contacts

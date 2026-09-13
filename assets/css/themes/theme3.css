@@ -31,6 +31,15 @@
   --edge: clamp(1.25rem, 5vw, 3rem);
   --tap: 2.75rem;
   --round: 1rem;
+
+  /* The handful of names assets/css/parts.css reads. See its header. */
+  --ui-bg: var(--cream);
+  --ui-ink: var(--ink);
+  --ui-soft: var(--ink-soft);
+  --ui-accent: var(--sage);
+  --ui-on-accent: #fff;
+  --ui-line: var(--line);
+  --ui-cover: var(--sage-pale);
 }
 
 *, *::before, *::after { box-sizing: border-box; }

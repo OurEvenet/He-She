@@ -1080,3 +1080,71 @@ section { position: relative; }
   .slot { break-inside: avoid; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.75em; word-break: break-all; }
 }
+
+/* ===============================================================
+   The shared parts
+   ---------------------------------------------------------------
+   assets/css/parts.css draws the envelope, the music toggle, the
+   story list and the gift details for every design in the repo. It
+   reads these seven names and nothing else, so mapping the main
+   page's own palette onto them is all it takes. They are var()
+   references rather than literals, so switching colour theme takes
+   these with it.
+   =============================================================== */
+
+:root {
+  --ui-bg: var(--shell);
+  --ui-ink: var(--ink);
+  --ui-soft: var(--ink-soft);
+  --ui-accent: var(--brass-lo);
+  --ui-on-accent: #fff;
+  --ui-line: var(--shell-dim);
+  --ui-cover: var(--poruwa);
+  --round: var(--r-1, 0.5rem);
+  /* Clear of the thumb dock, which is 3.5rem plus its own inset */
+  --music-bottom: 4.75rem;
+}
+
+/* The cover is the dark surface, so its text is the light one */
+.envelope { color: var(--on-dark); }
+.envelope__to, .envelope__when { color: var(--on-dark-soft); }
+.envelope__names em { color: var(--brass-hi); }
+
+/* --- Countdown, in the hero ------------------------------------- */
+
+.countdown {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.75rem 0 0;
+}
+.countdown__unit {
+  min-width: 4.6rem;
+  padding: 0.55rem 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--brass-hi) 40%, transparent);
+  border-radius: var(--r-1, 0.5rem);
+}
+.countdown__unit b {
+  display: block;
+  font-family: var(--display); font-weight: 400;
+  font-size: 1.6rem; line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--brass-hi);
+}
+.countdown__unit span {
+  font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--on-dark-soft);
+}
+.countdown__label {
+  flex-basis: 100%;
+  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--on-dark-soft);
+}
+.countdown.is-done { font-family: var(--display); font-size: 1.15rem; }
+
+/* --- Story and gifts, on this page's surfaces -------------------- */
+
+.story { text-align: left; }
+.gifts__note { color: var(--ink-soft); }
+.gifts__details { background: var(--shell-warm); }
+.shell--narrow { width: min(42rem, 100% - var(--edge, 1.25rem) * 2); margin-inline: auto; }
+.hashtag { text-align: center; }

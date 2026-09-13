@@ -7,6 +7,8 @@
 import { frameHTML } from "./images.js";
 import { formatDate, formatTime } from "./dates.js";
 import { replyCountHTML, replyFormHTML } from "./forms.js";
+import { storyHTML, giftsHTML } from "./sections.js";
+import { countdownHTML } from "./countdown.js";
 
 export const esc = (s) =>
   String(s ?? "").replace(/[&<>"']/g, (c) =>
@@ -53,6 +55,16 @@ export function renderHead(c) {
   };
 
   set('meta[name="description"]', "content", meta.description);
+
+  // A private invitation has no business in a search index: it carries
+  // a family's names, a house-full of phone numbers, and a date and
+  // place they will all be at.
+  if (meta.private !== false) {
+    const robots = document.createElement("meta");
+    robots.name = "robots";
+    robots.content = "noindex, nofollow";
+    document.head.appendChild(robots);
+  }
 
   // The colour the browser paints its own chrome follows the theme rather
   // than a value in the JSON: a maroon page under a green address bar is
@@ -117,6 +129,7 @@ export function renderHero(el, c) {
            ${esc(venue.name)}, ${esc(venue.city)}</p>
       </div>
       <p class="hero__line">${esc(couple.hero)}</p>
+      ${countdownHTML("until the poruwa")}
       <div class="hero__actions">
         <a class="btn" href="#rsvp">${esc(c.rsvp.heading)}</a>
         <a class="btn btn--quiet" href="#day">How the day runs</a>
@@ -145,6 +158,40 @@ export function renderLetter(el, c) {
         <p class="letter__sign">${esc(letter.signoff)}</p>
       </div>
       ${letter.aside ? `<p class="aside">${esc(letter.aside)}</p>` : ""}
+    </div>`;
+}
+
+/* --- Our story -------------------------------------------------- */
+
+/* Optional, and optional means gone: a section that renders its heading
+   over nothing is worse than no section. Both of these take the whole
+   band out of the document when the couple left the data out. */
+
+export function renderStory(el, c) {
+  if (!el) return;
+  const body = storyHTML(c);
+  if (!body) return el.remove();
+  el.innerHTML = `
+    <div class="shell">
+      <div class="band__head">
+        <h2>${esc(c.storyHeading || "How we got here")}</h2>
+      </div>
+      ${body}
+    </div>`;
+}
+
+/* --- Gifts ------------------------------------------------------- */
+
+export function renderGifts(el, c) {
+  if (!el) return;
+  const body = giftsHTML(c);
+  if (!body) return el.remove();
+  el.innerHTML = `
+    <div class="shell shell--narrow">
+      <div class="band__head">
+        <h2>${esc(c.gifts.heading || "If you were going to ask")}</h2>
+      </div>
+      ${body}
     </div>`;
 }
 

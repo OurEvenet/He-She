@@ -1,0 +1,177 @@
+@import url("base.css");
+
+/* ---------------------------------------------------------------
+   Theme 4 — Araliya. The night garden.
+
+   base.css draws the structure; this file is the palette and the
+   five or six rules that make it look like a garden at night rather
+   than a dark page.
+
+   Contrast, measured against the ground each colour actually sits
+   on rather than assumed: oyster on indigo 14.4:1, brass on indigo
+   5.9:1, blush on indigo 6.7:1, void on brass 5.5:1.
+   --------------------------------------------------------------- */
+
+:root {
+  --indigo:  #0e1230;
+  --void:    #060818;
+  --surface-lo: #141936;
+  --brass:   #b98a2e;
+  --brass-hi: #d9ab52;
+  --oyster:  #e9e3d5;
+  --blush:   #c98b96;   /* used twice, and only twice */
+
+  /* base.css reads these */
+  --bg: var(--indigo);
+  --bg-alt: var(--void);
+  --surface: var(--surface-lo);
+  --ink: var(--oyster);
+  --ink-soft: #b3ae9f;
+  --accent: var(--brass);
+  --on-accent: var(--void);
+  --line: #2a2f52;
+  --field-line: #6b7099;
+  --alarm: #e8927f;
+
+  --round: 0;
+  --btn-round: 0;
+  --measure: 64rem;
+
+  /* parts.css reads these */
+  --ui-bg: var(--indigo);
+  --ui-ink: var(--oyster);
+  --ui-soft: #b3ae9f;
+  --ui-accent: var(--brass-hi);
+  --ui-on-accent: var(--void);
+  --ui-line: #2a2f52;
+  --ui-cover: var(--void);
+}
+
+body { line-height: 1.75; }
+
+h1, h2, h3 { font-variation-settings: "SOFT" 60, "WONK" 1; }
+
+/* Brass is dark enough to carry text on indigo, but a lit brass reads
+   better at small sizes and on the darker band. */
+.eyebrow, .btn--quiet, .countdown__unit b, .faq summary::after,
+.notes h3, .contacts svg, .leave-note b { color: var(--brass-hi); }
+.btn--quiet { border-color: color-mix(in oklab, var(--brass-hi) 45%, transparent); }
+@media (hover: hover) and (pointer: fine) {
+  .btn--quiet:hover { background: var(--brass-hi); color: var(--void); border-color: var(--brass-hi); }
+}
+
+.rule {
+  display: flex; align-items: center; justify-content: center; gap: 0.9rem;
+  width: min(20rem, 80%); margin: 1.3rem auto 2rem;
+  color: var(--brass);
+}
+.rule i { flex: 1; height: 1px; background: currentColor; opacity: 0.55; }
+.rule b { width: 6px; height: 6px; background: currentColor; transform: rotate(45deg); }
+
+/* --- Hero --------------------------------------------------------- */
+
+.hero {
+  position: relative; min-height: 100svh;
+  display: grid; place-content: center;
+  padding: calc(4rem + env(safe-area-inset-top, 0px)) 0
+           calc(4rem + env(safe-area-inset-bottom, 0px));
+  background: var(--void);
+  overflow: clip;
+}
+.hero__media { position: absolute; inset: 0; z-index: 0; }
+.hero__media .frame { position: absolute; inset: 0; aspect-ratio: auto; border-radius: 0; }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; }
+/* The photograph is whoever's the couple dropped in, so the wash over it
+   has to hold up against a bright sky as well as a dark room. A flat
+   layer guarantees the floor; the radial only keeps the middle alive. */
+.hero__media::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 45%,
+      rgb(6 8 24 / 35%) 0%, rgb(6 8 24 / 78%) 70%, rgb(6 8 24 / 95%) 100%),
+    linear-gradient(rgb(14 18 48 / 62%), rgb(14 18 48 / 62%));
+}
+.hero__inner { position: relative; z-index: 1; }
+
+.names {
+  font-family: var(--display); font-weight: 400;
+  font-variation-settings: "SOFT" 30, "WONK" 1, "opsz" 144;
+  font-size: clamp(2.9rem, 13vw, 6.5rem);
+  line-height: 1.02; letter-spacing: -0.02em;
+  margin: 0.5rem 0 0.6rem;
+}
+/* One of the two places blush appears */
+.names em {
+  display: block; font-size: 0.3em; font-style: italic;
+  letter-spacing: 0.08em; color: var(--blush); margin: 0.2em 0;
+}
+.hero__line { color: var(--ink-soft); max-width: 34ch; margin-inline: auto; }
+
+/* The stem, drawn once on open. A clip that travels left to right
+   costs nothing and needs no library. */
+.stem {
+  width: min(22rem, 85%); height: auto; margin: 0.5rem auto 1.6rem;
+  opacity: 0.85;
+  filter: invert(62%) sepia(38%) saturate(720%) hue-rotate(3deg) brightness(95%);
+  animation: draw 2.4s cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
+}
+@keyframes draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@media (prefers-reduced-motion: reduce) { .stem { animation: none; } }
+
+/* --- The day ------------------------------------------------------ */
+
+.runs { list-style: none; padding: 0; margin-top: 2.5rem; }
+.runs li {
+  display: grid; gap: 0.4rem 2rem;
+  padding-block: clamp(1.5rem, 4vw, 2.25rem);
+  border-top: 1px solid var(--line);
+  text-align: left;
+}
+.runs li:last-child { border-bottom: 1px solid var(--line); }
+@media (min-width: 40rem) {
+  .runs li { grid-template-columns: 9.5rem 1fr; }
+  .runs__time { text-align: right; }
+}
+.runs__time b {
+  display: block; font-family: var(--display); font-size: 1.5rem; font-weight: 400;
+  color: var(--brass-hi); font-variant-numeric: tabular-nums;
+}
+.runs__time span { font-size: 0.8rem; color: var(--ink-soft); }
+.runs p { color: var(--ink-soft); max-width: 52ch; }
+.runs h3 { margin-bottom: 0.3rem; }
+.note { margin-top: 0.8rem; padding-left: 0.9rem; border-left: 2px solid var(--brass); color: var(--ink) !important; }
+.dress { margin-top: 0.7rem; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass-hi) !important; }
+
+/* --- Photographs --------------------------------------------------- */
+/* Four narrow plates on a wide screen, two on a phone: closer to a
+   printed plate section than to a web gallery. */
+.plates {
+  display: grid; gap: clamp(0.7rem, 2vw, 1.1rem);
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 2.5rem;
+}
+@media (min-width: 52rem) { .plates { grid-template-columns: repeat(4, 1fr); } }
+.plates figcaption { text-align: center; }
+
+.venue__hall { color: var(--brass-hi); margin-top: 0.4rem; }
+.venue__street { color: var(--ink-soft); margin-top: 0.4rem; }
+.venue__plate { margin-top: 2.5rem; }
+.venue__plate .frame { --ar: 16 / 9; }
+
+/* --- Reply, questions, foot ---------------------------------------- */
+
+.card {
+  margin-top: 2.5rem;
+  background: var(--surface-lo); border: 1px solid var(--line);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+.rsvp__count { background: var(--surface-lo); }
+
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-of-type { border-bottom: 1px solid var(--line); }
+
+.foot { background: var(--void); }
+.foot__names { color: var(--oyster); }
+.contacts a { color: var(--oyster); }
+/* The second and last place blush appears */
+.sign { color: var(--blush); }

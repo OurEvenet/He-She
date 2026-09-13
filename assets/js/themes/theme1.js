@@ -21,6 +21,7 @@ import { frameHTML } from "../modules/images.js";
 import { formatDate, formatTime } from "../modules/dates.js";
 import { replyFormHTML, replyCountHTML } from "../modules/forms.js";
 import { countdownHTML } from "../modules/countdown.js";
+import { storyHTML, giftsHTML } from "../modules/sections.js";
 
 const initials = (c) =>
   `${c.couple.one.name.trim()[0] || ""} & ${c.couple.two.name.trim()[0] || ""}`;
@@ -73,6 +74,19 @@ function paint(c) {
         ${letter.aside ? `<p class="aside">${esc(letter.aside)}</p>` : ""}
       </div>
     </section>
+
+    ${
+      c.story?.length
+        ? `<section class="band" id="story-band">
+             <div class="wrap wrap--narrow center">
+               <p class="eyebrow">Before all this</p>
+               <h2>${esc(c.storyHeading || "How we got here")}</h2>
+               ${rule("araliya")}
+             </div>
+             <div class="wrap wrap--narrow">${storyHTML(c)}</div>
+           </section>`
+        : ""
+    }
 
     <section class="band band--tint" id="day">
       <div class="wrap center">
@@ -161,6 +175,19 @@ function paint(c) {
       <div class="wrap wrap--narrow card">${replyFormHTML(c)}</div>
     </section>
 
+    ${
+      c.gifts?.enabled
+        ? `<section class="band" id="gifts">
+             <div class="wrap wrap--narrow center">
+               <p class="eyebrow">Gifts</p>
+               <h2>${esc(c.gifts.heading || "If you were going to ask")}</h2>
+               ${rule()}
+               ${giftsHTML(c)}
+             </div>
+           </section>`
+        : ""
+    }
+
     <section class="band" id="faq">
       <div class="wrap wrap--narrow center">
         <p class="eyebrow">Questions</p>
@@ -187,6 +214,7 @@ function paint(c) {
       <p class="foot__names">${esc(couple.one.name)} &amp; ${esc(couple.two.name)}</p>
       <p class="foot__date">${esc(couple.dateLine)}</p>
       ${rule()}
+      ${couple.hashtag ? `<p class="hashtag">${esc(couple.hashtag)}</p>` : ""}
       <div class="contacts">
         ${contacts
           .map(
