@@ -62,10 +62,13 @@ export function renderHead(c) {
   set('meta[property="og:title"]', "content", meta.siteTitle);
   set('meta[property="og:description"]', "content", meta.description);
   set('meta[property="og:url"]', "content", meta.url);
-  set('meta[property="og:image"]', "content", absolute(meta.ogImage));
+  // The stamped path, so a re-share picks up a changed picture rather than
+  // whatever the chat app cached the first time the link went round.
+  const share = c.images?.og?.jpg || meta.ogImage;
+  set('meta[property="og:image"]', "content", absolute(share));
   set('meta[name="twitter:title"]', "content", meta.siteTitle);
   set('meta[name="twitter:description"]', "content", meta.description);
-  set('meta[name="twitter:image"]', "content", absolute(meta.ogImage));
+  set('meta[name="twitter:image"]', "content", absolute(share));
   set('link[rel="canonical"]', "href", meta.url);
 
   // Structured data, so a shared link previews as an event
@@ -82,7 +85,7 @@ export function renderHead(c) {
       address: c.venue.address,
       geo: { "@type": "GeoCoordinates", latitude: c.venue.lat, longitude: c.venue.lng },
     },
-    image: [absolute(meta.ogImage)],
+    image: [absolute(share)],
     description: meta.description,
   };
   const script = document.createElement("script");
