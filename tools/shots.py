@@ -6,6 +6,17 @@ OUT = "/tmp/shots"
 import os; os.makedirs(OUT, exist_ok=True)
 
 
+def uncover(pg):
+    """Every page now opens behind a cover. Tap it, so the smoke test is
+    looking at the invitation rather than at the envelope."""
+    try:
+        if pg.evaluate("!!document.querySelector('[data-envelope-open]')"):
+            pg.click("[data-envelope-open]")
+            pg.wait_for_timeout(1100)
+    except Exception:
+        pass
+
+
 def launch(pw):
     """Use Playwright's own browser, or a Chromium already on the machine."""
     try:
@@ -27,6 +38,7 @@ with sync_playwright() as pw:
     pg.on("pageerror", lambda e: errs.append(f"pageerror: {e}"))
     pg.goto(BASE, wait_until="networkidle")
     pg.wait_for_timeout(1200)
+    uncover(pg)
     pg.screenshot(path=f"{OUT}/hero.png")
     pg.evaluate("window.scrollTo(0, document.body.scrollHeight)")
     pg.wait_for_timeout(1500)
@@ -67,6 +79,7 @@ with sync_playwright() as pw:
     mp = b.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2, has_touch=True)
     mp.goto(BASE, wait_until="networkidle")
     mp.wait_for_timeout(1200)
+    uncover(mp)
     mp.screenshot(path=f"{OUT}/m-hero.png")
     mp.evaluate("window.scrollTo(0, document.body.scrollHeight)")
     mp.wait_for_timeout(1500)
@@ -105,6 +118,7 @@ with sync_playwright() as pw:
             ap = b.new_page(viewport={"width": width, "height": 780}, has_touch=True)
             ap.goto(BASE.replace("index.html", page_name), wait_until="networkidle")
             ap.wait_for_timeout(1200)
+            uncover(ap)
             ap.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             ap.wait_for_timeout(600)
             r = ap.evaluate(AUDIT)
@@ -133,6 +147,7 @@ with sync_playwright() as pw:
             hp = b.new_page(viewport={"width": width, "height": height}, has_touch=width < 800)
             hp.goto(BASE, wait_until="networkidle")
             hp.wait_for_timeout(2800)
+            uncover(hp)
             lines = hp.evaluate("""() =>
               [...document.querySelectorAll('.hero__eyebrow,.names,.hero__meta strong,.hero__line')]
                 .map(el => { const r = el.getBoundingClientRect();
@@ -175,6 +190,7 @@ with sync_playwright() as pw:
         tp.on("pageerror", lambda e, t=theme: errs.append(f"{t}: {e}"))
         tp.goto(f"{BASE}?theme={theme}", wait_until="networkidle")
         tp.wait_for_timeout(2600)
+        uncover(tp)
         tp.evaluate("window.scrollTo(0, document.body.scrollHeight)")
         tp.wait_for_timeout(900)
         r = tp.evaluate(AUDIT)

@@ -8,3 +8,8 @@ assets/img/incoming/
 assets/img/_lqip.json
 
 .DS_Store
+
+# Guest lists: names and phone numbers of people who never signed up with
+# you. They belong on the couple's machine, not in a public repository.
+guests*.csv
+links*.csv

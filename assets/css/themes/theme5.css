@@ -1,0 +1,174 @@
+@import url("base.css");
+
+/* ---------------------------------------------------------------
+   Theme 5 — Ink & Kite. Paper minimal.
+
+   No serif anywhere: Karla does the headings, the body and the
+   labels, at three weights. Everything is left-aligned against one
+   margin, the measure is narrow, and the names are set at roughly
+   the size of a paragraph — which is the point.
+
+   Contrast, measured: graphite on paper 14.9:1, soft grey on paper
+   6.7:1, dusk-deep on paper 6.7:1 and white on dusk-deep 7.0:1.
+   The pale dusk of the reference palette measures 3.2:1 on paper,
+   so it is used only for rules and fills, never for text.
+   --------------------------------------------------------------- */
+
+:root {
+  --paper:    #fbfaf6;
+  --graphite: #22242a;
+  --dusk:     #5a5288;   /* the readable one — text and controls */
+  --dusk-pale:#8e86b8;   /* rules and fills only; 3.2:1 on paper */
+  --wash:     #e9eaf1;
+
+  /* base.css reads these */
+  --bg: var(--paper);
+  --bg-alt: #f4f3ef;
+  --surface: #fff;
+  --ink: var(--graphite);
+  --ink-soft: #565963;
+  --accent: var(--dusk);
+  --on-accent: #fff;
+  --line: #dcdbd5;
+  --field-line: #757781;
+  --alarm: #a33226;
+
+  --round: 0;
+  --btn-round: 0;
+  --measure: 38rem;      /* narrow on purpose: a column, not a page */
+  --measure-n: 38rem;
+  --edge: clamp(1.25rem, 6vw, 2.5rem);
+}
+
+/* One family, three weights, everywhere. */
+body { font-family: var(--text); line-height: 1.7; }
+h1, h2, h3, .sign, .foot__names, .countdown__unit b, .rsvp__count b, .faq summary {
+  font-family: var(--text);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+h2 { font-size: 1.5rem; margin-bottom: 1.4rem; }
+h3 { font-size: 1rem; }
+
+/* The section labels: the only place caps and tracking are used. */
+.tag {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--dusk);
+  padding-bottom: 0.8rem; margin-bottom: 1.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.band { padding-block: clamp(3rem, 11vw, 5.5rem); }
+
+/* --- Hero --------------------------------------------------------- */
+/* No photograph behind anything and no full-height cover: the page
+   simply begins. The space above the names does the work. */
+.hero {
+  padding-top: calc(clamp(3.5rem, 14vw, 7rem) + env(safe-area-inset-top, 0px));
+  padding-bottom: clamp(2.5rem, 8vw, 4rem);
+}
+.names {
+  font-size: 1.5rem; font-weight: 600; line-height: 1.3;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.9rem;
+}
+.names span { color: var(--dusk); font-weight: 400; }
+.hero__line { color: var(--ink-soft); max-width: 32ch; }
+
+/* The facts, as a label-and-value list rather than a paragraph */
+.facts {
+  display: grid; grid-template-columns: 5.5rem 1fr;
+  gap: 0.35rem 1.25rem;
+  margin-top: 2.25rem;
+  padding-block: 1.4rem;
+  border-block: 1px solid var(--line);
+}
+.facts dt {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-soft);
+  padding-top: 0.25rem;
+}
+.facts dd { margin: 0; }
+
+.countdown__unit {
+  min-width: 4.4rem; background: var(--wash); border-color: transparent;
+}
+.countdown__unit b { font-size: 1.35rem; color: var(--graphite); }
+
+/* The drawing. Pale enough to be paper texture rather than a picture. */
+.draw {
+  width: 100%; height: auto; margin-top: clamp(2.5rem, 8vw, 4rem);
+  opacity: 0.35;
+}
+
+/* --- Story, day, gallery ------------------------------------------ */
+
+.prose, .lead { max-width: 34ch; }
+.sign { font-style: normal; font-size: 1rem; color: var(--dusk); }
+.aside { font-style: normal; font-family: var(--text); font-size: 0.92rem; }
+
+.story li { border-color: var(--line); }
+.story__when { color: var(--dusk); }
+
+.ledger { list-style: none; padding: 0; margin: 0; }
+.ledger li {
+  display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.3rem 1.25rem;
+  padding-block: 1.6rem;
+  border-top: 1px solid var(--line);
+}
+.ledger li:last-child { border-bottom: 1px solid var(--line); }
+.ledger__time { font-variant-numeric: tabular-nums; }
+.ledger__time b { display: block; font-weight: 600; }
+.ledger__time span { font-size: 0.78rem; color: var(--ink-soft); }
+.ledger p { color: var(--ink-soft); font-size: 0.95rem; }
+.ledger h3 { margin-bottom: 0.25rem; }
+.note { margin-top: 0.7rem; padding-left: 0.85rem; border-left: 2px solid var(--dusk-pale); color: var(--ink) !important; }
+.dress { margin-top: 0.6rem; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dusk) !important; }
+.ledger + .btn { margin-top: 2rem; }
+
+.stack { display: grid; gap: clamp(2rem, 7vw, 3.5rem); margin-top: 2rem; }
+.stack .frame { --ar: 4 / 3; }
+.stack figcaption { display: flex; gap: 0.7rem; }
+.stack figcaption i {
+  font-style: normal; font-variant-numeric: tabular-nums;
+  color: var(--dusk); flex: none;
+}
+
+.venue__hall { color: var(--dusk); margin-top: 0.3rem; }
+.venue__street { color: var(--ink-soft); margin-top: 0.3rem; }
+.notes { grid-template-columns: 1fr; gap: 1.25rem; }
+@media (min-width: 46rem) { .notes { grid-template-columns: 1fr; } }
+.notes h3 { color: var(--dusk); }
+
+/* --- Reply, questions, foot ---------------------------------------- */
+
+.form { margin-top: 2rem; }
+.rsvp__count { border-color: transparent; background: var(--wash); }
+.rsvp__count b { font-size: 1.6rem; color: var(--graphite); }
+.leave-note { border-color: var(--line); background: var(--wash); }
+
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-of-type { border-bottom: 1px solid var(--line); }
+.faq summary { font-size: 0.98rem; }
+
+.gifts__note { max-width: 34ch; margin-inline: 0; text-align: left; }
+.gifts__details { background: var(--wash); border-color: transparent; }
+
+.foot { background: var(--bg-alt); border-top: 1px solid var(--line); }
+.foot__names { font-size: 1.1rem; }
+.contacts a { color: var(--graphite); }
+
+/* parts.css reads these */
+:root {
+  --ui-bg: var(--paper);
+  --ui-ink: var(--graphite);
+  --ui-soft: #565963;
+  --ui-accent: var(--dusk);
+  --ui-on-accent: #fff;
+  --ui-line: #dcdbd5;
+  --ui-cover: var(--paper);
+}
+/* The cover is paper too, so its names follow the theme's own rule */
+.envelope__names { font-family: var(--text); font-size: 1.5rem; font-weight: 600; }
+.envelope__names em { font-size: 1em; font-style: normal; font-weight: 400; display: inline; }

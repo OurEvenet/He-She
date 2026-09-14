@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-LK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>Designs</title>
+<meta name="description" content="The seven invitation designs in this repository, all reading the same wedding.json.">
+<meta name="theme-color" content="#f6f4ef">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f6f4ef'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%237a5a1a' text-anchor='middle'%3E%26amp;%3C/text%3E%3C/svg%3E">
+
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Fraunces.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Karla.woff2" crossorigin>
+<link rel="preload" as="fetch" href="data/wedding.json" crossorigin>
+
+<link rel="stylesheet" href="assets/css/themes-page.css">
+</head>
+
+<body>
+<!-- Written by assets/js/themes.js, from data/wedding.json. -->
+<div class="boot" id="boot">
+  <p>Loading the designs…</p>
+  <p id="boot-fail" hidden></p>
+</div>
+
+<div id="page"></div>
+
+<noscript>
+  <div style="padding:2rem;max-width:40rem;margin:auto">
+    <h1>The designs</h1>
+    <p>This page needs JavaScript, because it reads the couple's own details out of
+      <code>data/wedding.json</code> rather than repeating them. The designs themselves are
+      <a href="index.html">index.html</a>, <a href="theme1.html">theme1.html</a>,
+      <a href="theme2.html">theme2.html</a>, <a href="theme3.html">theme3.html</a>,
+      <a href="theme4.html">theme4.html</a>, <a href="theme5.html">theme5.html</a> and
+      <a href="theme6.html">theme6.html</a>.</p>
+  </div>
+</noscript>
+
+<script type="module" src="assets/js/themes.js"></script>
+</body>
+</html>

@@ -1,0 +1,509 @@
+@import url("../tokens.css");
+
+/* ---------------------------------------------------------------
+   Theme 1 — Ivory.
+
+   Centred, symmetric, gold. The classic printed invitation: every
+   line finds the middle, rules separate the movements, and the two
+   names are the only thing set large.
+
+   It borrows the type and the spacing rhythm from tokens.css and
+   nothing else — the palette below is its own, so the four colour
+   themes on the main page do not reach in here.
+   --------------------------------------------------------------- */
+
+:root {
+  --ivory:     #fbf8f2;
+  --ivory-dim: #f3ede1;
+  --ink:       #2b2721;
+  --ink-soft:  #6b6257;
+  /* Measured, not guessed: #a8802f reads 3.4:1 on ivory and 3.1:1 on the
+     tint band — it looked like gold and failed as text. This one clears
+     4.6:1 on both, and carries white at 5.4:1 on a button. */
+  --gold:      #8a6416;
+  --gold-lit:  #d8b262;
+  --dark:      #24201b;
+  --on-dark:   #f6f1e8;
+  --on-dark-soft: #cfc4b2;
+  --line:      #ddd2bd;
+  --field-line: #8d8474;
+  --alarm:     #9a3521;
+
+  --edge: clamp(1.25rem, 5vw, 3rem);
+  --tap: 2.75rem;
+
+  /* The handful of names assets/css/parts.css reads. See its header. */
+  --ui-bg: var(--ivory);
+  --ui-ink: var(--ink);
+  --ui-soft: var(--ink-soft);
+  --ui-accent: var(--gold);
+  --ui-on-accent: #fff;
+  --ui-line: var(--line);
+  --ui-cover: var(--dark);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+[hidden] { display: none !important; }
+
+html { font-size: 106.25%; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  font-family: var(--text);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--ivory);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: color-mix(in oklab, var(--gold) 20%, transparent);
+}
+
+img, picture, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:where(a) { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+section[id] { scroll-margin-top: 1.5rem; }
+
+.skip-link {
+  position: absolute; top: 0; left: 50%; z-index: 100;
+  transform: translate(-50%, -120%);
+  padding: 0.75rem 1.25rem; background: var(--gold); color: #fff; font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { transform: translate(-50%, 0); }
+
+/* --- Rhythm ----------------------------------------------------- */
+.wrap {
+  width: min(64rem, 100% - var(--edge) * 2);
+  margin-inline: auto;
+}
+.wrap--narrow { width: min(44rem, 100% - var(--edge) * 2); }
+.center { text-align: center; }
+.band { padding-block: clamp(3.5rem, 9vw, 7rem); }
+.band--tint { background: var(--ivory-dim); }
+.band--dark { background: var(--dark); color: var(--on-dark); }
+
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+h2 { font-size: clamp(1.9rem, 5.5vw, 3rem); }
+h3 { font-size: 1.25rem; }
+p { text-wrap: pretty; }
+
+.eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.9rem;
+}
+.band--dark .eyebrow { color: var(--gold-lit); }
+.lead { color: var(--ink-soft); max-width: 46ch; margin-inline: auto; }
+.prose { max-width: 58ch; margin-inline: auto; color: var(--ink-soft); }
+.prose p + p { margin-top: 1.1em; }
+.sign {
+  font-family: var(--display); font-style: italic; font-size: 1.3rem;
+  margin-top: 1.6rem;
+}
+.aside {
+  font-family: var(--display); font-style: italic;
+  color: var(--ink-soft); max-width: 40ch; margin: 2.5rem auto 0;
+}
+
+/* A gold rule with something small at its centre */
+.rule {
+  display: flex; align-items: center; justify-content: center; gap: 0.9rem;
+  margin: 1.4rem auto 2rem;
+  width: min(22rem, 80%);
+  color: var(--gold);
+}
+.rule i { flex: 1; height: 1px; background: currentColor; opacity: 0.5; }
+.rule b { width: 6px; height: 6px; background: currentColor; transform: rotate(45deg); }
+.rule img { width: 2.5rem; height: auto; opacity: 0.75; }
+.band--dark .rule { color: var(--gold-lit); }
+
+/* --- Hero ------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: calc(3rem + env(safe-area-inset-top, 0px)) var(--edge)
+           calc(4rem + env(safe-area-inset-bottom, 0px));
+  background: var(--dark);
+  color: var(--on-dark);
+  overflow: clip;
+}
+.hero__media { position: absolute; inset: 0; z-index: 0; }
+.hero__media .frame { position: absolute; inset: 0; aspect-ratio: auto; }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; }
+/* The photograph is whatever the couple dropped in, so the cover over it
+   has to be strong enough for a bright sky behind the first line. A flat
+   wash guarantees that everywhere; the radial just keeps the middle from
+   going flat and lifeless. */
+.hero__media::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(115% 75% at 50% 45%,
+      rgba(36,32,27,0.30) 0%, rgba(36,32,27,0.72) 72%, rgba(36,32,27,0.92) 100%),
+    linear-gradient(rgba(36,32,27,0.55), rgba(36,32,27,0.55));
+}
+.hero__inner { position: relative; z-index: 1; }
+
+.monogram {
+  font-family: var(--display);
+  font-size: 1.5rem; letter-spacing: 0.3em;
+  color: var(--gold-lit);
+  margin-bottom: 1.5rem;
+}
+/* The invitation line is a sentence — set as one, not as a label */
+.hero__invite {
+  max-width: 38ch; margin-inline: auto;
+  color: var(--on-dark-soft);
+  font-size: 0.95rem; line-height: 1.6;
+}
+
+.names {
+  font-family: var(--display);
+  font-weight: 400;
+  font-variation-settings: "SOFT" 40, "WONK" 1, "opsz" 144;
+  font-size: clamp(2.9rem, 13vw, 7rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0.6rem 0 1.2rem;
+}
+.names em {
+  display: block;
+  font-size: 0.3em; font-style: italic;
+  letter-spacing: 0.1em;
+  color: var(--gold-lit);
+  margin: 0.25em 0;
+}
+.hero__date { font-size: 1.05rem; letter-spacing: 0.04em; }
+.hero__where { color: var(--on-dark-soft); margin-top: 0.3rem; }
+
+.scroll {
+  position: absolute; left: 50%; bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%); z-index: 1;
+  width: var(--tap); height: var(--tap);
+  display: grid; place-items: center;
+}
+.scroll i {
+  width: 1px; height: 2.5rem;
+  background: linear-gradient(var(--gold-lit), transparent);
+}
+@media (max-height: 34rem) { .scroll { display: none; } }
+
+/* --- Countdown --------------------------------------------------- */
+.countdown {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 0.75rem;
+  margin: 2rem auto 0;
+}
+.countdown__unit {
+  min-width: 4.6rem;
+  padding: 0.6rem 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--gold-lit) 45%, transparent);
+}
+.countdown__unit b {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.7rem; font-weight: 400; line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold-lit);
+}
+.countdown__unit span {
+  font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--on-dark-soft);
+}
+.countdown__label {
+  flex-basis: 100%;
+  font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--on-dark-soft);
+}
+.countdown.is-done { font-family: var(--display); font-size: 1.2rem; }
+
+/* --- Buttons ----------------------------------------------------- */
+.actions {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem;
+  margin-top: 2rem;
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  min-height: var(--tap);
+  padding: 0.7rem 1.7rem;
+  font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--gold);
+  background: var(--gold); color: #fff;
+  cursor: pointer; touch-action: manipulation;
+  transition: background 200ms, color 200ms, border-color 200ms;
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { background: transparent; color: var(--gold); }
+  .band--dark .btn:hover, .hero .btn:hover { color: var(--gold-lit); border-color: var(--gold-lit); }
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn--quiet {
+  background: transparent; color: var(--gold);
+  border-color: color-mix(in oklab, var(--gold) 55%, transparent);
+}
+.hero .btn--quiet, .band--dark .btn--quiet, .foot .btn--quiet { color: var(--gold-lit); border-color: color-mix(in oklab, var(--gold-lit) 55%, transparent); }
+@media (hover: hover) and (pointer: fine) {
+  .btn--quiet:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+}
+.btn svg { width: 1.05em; height: 1.05em; flex: none; }
+.actions .btn { flex: 1 1 13rem; max-width: 18rem; }
+
+/* --- Timeline ---------------------------------------------------- */
+.timeline { list-style: none; padding: 0; margin-top: 2.5rem; display: grid; gap: 0; }
+.timeline li {
+  display: grid;
+  gap: 0.4rem 2rem;
+  padding-block: clamp(1.5rem, 4vw, 2.25rem);
+  border-top: 1px solid var(--line);
+}
+.timeline li:last-child { border-bottom: 1px solid var(--line); }
+@media (min-width: 46rem) {
+  .timeline li { grid-template-columns: 11rem 1fr; }
+  .timeline__time { text-align: right; }
+}
+.timeline__time b {
+  display: block;
+  font-family: var(--display); font-size: 1.5rem; font-weight: 400;
+  color: var(--gold); font-variant-numeric: tabular-nums;
+}
+.timeline__time span { font-size: 0.8rem; color: var(--ink-soft); }
+.timeline__body p { color: var(--ink-soft); max-width: 52ch; }
+.timeline__body h3 { margin-bottom: 0.35rem; }
+.note {
+  margin-top: 0.8rem; padding-left: 0.9rem;
+  border-left: 2px solid var(--gold); color: var(--ink) !important;
+}
+.dress {
+  margin-top: 0.7rem; font-size: 0.8rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold) !important;
+}
+
+/* --- Gallery ----------------------------------------------------- */
+.grid {
+  display: grid; gap: clamp(0.75rem, 2vw, 1.25rem);
+  grid-template-columns: 1fr;
+  margin-top: 2.5rem;
+}
+@media (min-width: 34rem) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 62rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
+.grid figure { margin: 0; }
+.open { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.open .frame { transition: transform 300ms; }
+@media (hover: hover) and (pointer: fine) { .open:hover .frame { transform: scale(1.015); } }
+.grid figcaption {
+  margin-top: 0.6rem; font-size: 0.82rem; color: var(--ink-soft);
+  text-align: center;
+}
+
+.frame {
+  position: relative; aspect-ratio: var(--ar, 3 / 4); overflow: hidden;
+  background: var(--ivory-dim);
+}
+.frame::before {
+  content: ""; position: absolute; inset: -6%;
+  background-image: var(--lqip); background-size: cover; background-position: center;
+  filter: blur(14px); transform: scale(1.04);
+  transition: opacity 500ms;
+}
+.frame img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0; transition: opacity 500ms;
+}
+.frame.is-loaded img { opacity: 1; }
+.frame.is-loaded::before { opacity: 0; }
+
+/* --- Venue ------------------------------------------------------- */
+.venue__hall { color: var(--gold-lit); margin-top: 0.4rem; }
+.venue__street { color: var(--on-dark-soft); margin-top: 0.5rem; }
+.notes {
+  display: grid; gap: 1.6rem; margin-top: 3rem; text-align: left;
+}
+@media (min-width: 46rem) { .notes { grid-template-columns: repeat(3, 1fr); } }
+.notes h3 {
+  font-family: var(--text); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-lit);
+  margin-bottom: 0.4rem;
+}
+.notes p { color: var(--on-dark-soft); font-size: 0.92rem; }
+
+/* --- Reply ------------------------------------------------------- */
+.rsvp__count {
+  display: inline-block; margin-top: 1.6rem; padding: 0.9rem 1.4rem;
+  border: 1px solid var(--line); background: var(--ivory);
+}
+.rsvp__count b {
+  display: block; font-family: var(--display); font-size: 2rem; line-height: 1;
+  color: var(--gold); font-variant-numeric: tabular-nums;
+}
+.rsvp__count span { font-size: 0.8rem; color: var(--ink-soft); }
+
+.card {
+  margin-top: 2.5rem;
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+.form { display: grid; gap: 1.3rem; text-align: left; }
+.field { display: grid; gap: 0.4rem; }
+.field > label, .fieldset > legend {
+  font-size: 0.74rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft);
+}
+.fieldset { border: 0; padding: 0; display: grid; gap: 0.5rem; min-width: 0; }
+.fieldset > legend { padding: 0; }
+.field input[type="text"], .field input[type="email"], .field select, .field textarea {
+  width: 100%; min-height: var(--tap);
+  padding: 0.7rem 0.9rem;
+  font-size: max(1rem, 16px);
+  background: #fff; border: 1px solid var(--field-line); border-radius: 0;
+  transition: border-color 200ms;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
+.field textarea { min-height: 6.5rem; resize: vertical; }
+.field select {
+  appearance: none; padding-right: 2.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%236b6257' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.9rem center; background-size: 0.75rem;
+}
+.field__hint { font-size: 0.8rem; color: var(--ink-soft); }
+.field__error, .form__error { font-size: 0.82rem; font-weight: 600; color: var(--alarm); }
+.field[data-invalid] input, .field[data-invalid] textarea, .field[data-invalid] select {
+  border-color: var(--alarm);
+}
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 0.5rem; }
+.choice { position: relative; }
+.choice input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: pointer; }
+.choice span {
+  display: flex; align-items: center; justify-content: center;
+  min-height: var(--tap); padding: 0.6rem 1rem;
+  border: 1px solid var(--field-line); background: #fff;
+  font-size: 0.85rem; font-weight: 600; text-align: center;
+  transition: background 200ms, color 200ms, border-color 200ms;
+}
+.choice input:checked + span { background: var(--gold); border-color: var(--gold); color: #fff; }
+.choice input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+.form__row { display: grid; gap: 1.3rem; }
+@media (min-width: 34rem) { .form__row { grid-template-columns: 1fr 1fr; } }
+.form__submit { display: grid; }
+@media (min-width: 34rem) { .form__submit { justify-content: center; } }
+
+.confirm { display: grid; gap: 1.4rem; text-align: left; }
+.confirm h3 { font-size: 1.6rem; }
+.confirm p { color: var(--ink-soft); }
+.confirm__rule { height: 1px; background: var(--line); }
+.confirm__group { display: grid; gap: 0.7rem; }
+.confirm__group > p { font-size: 0.85rem; }
+.confirm__buttons { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.confirm__buttons .btn { flex: 1 1 13rem; }
+.leave-note { display: grid; gap: 0.35rem; padding: 1rem 1.2rem; border: 1px dashed var(--gold); }
+.leave-note b { color: var(--gold); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.leave-note p, .confirm__demo { font-size: 0.85rem; }
+.confirm__demo { border-top: 1px solid var(--line); padding-top: 1rem; color: var(--gold) !important; }
+
+/* --- Questions --------------------------------------------------- */
+.faq { margin-top: 2rem; text-align: left; }
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-of-type { border-bottom: 1px solid var(--line); }
+.faq summary {
+  display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
+  min-height: var(--tap); padding-block: 1.1rem;
+  cursor: pointer; list-style: none; touch-action: manipulation;
+  font-family: var(--display); font-size: 1.15rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; font-family: var(--text); color: var(--gold); flex: none;
+  transition: transform 200ms;
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details > div { padding-bottom: 1.3rem; color: var(--ink-soft); max-width: 60ch; }
+
+/* --- Foot -------------------------------------------------------- */
+.foot {
+  background: var(--dark); color: var(--on-dark-soft);
+  padding-block: clamp(3rem, 8vw, 5rem) calc(clamp(3rem, 8vw, 5rem) + env(safe-area-inset-bottom, 0px));
+}
+/* The dark footer needs the lit gold: the text gold is dark enough to
+   carry ivory but only reaches 3.0:1 against #24201b. */
+.foot { --ui-accent: var(--gold-lit); }
+.foot .monogram { margin-bottom: 1rem; }
+.foot__names { font-family: var(--display); font-size: clamp(1.6rem, 5vw, 2.4rem); color: var(--on-dark); }
+.foot__date { margin-top: 0.4rem; }
+.contacts { display: grid; gap: 1rem; justify-items: center; margin-bottom: 1.8rem; }
+.contacts a {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: var(--tap);
+  color: var(--on-dark); text-decoration-color: var(--gold-lit); text-underline-offset: 3px;
+}
+.contacts svg { width: 1em; height: 1em; color: var(--gold-lit); flex: none; }
+.contacts small { display: block; color: var(--on-dark-soft); }
+
+/* --- Loading + lightbox ------------------------------------------ */
+.boot {
+  position: fixed; inset: 0; z-index: 50;
+  display: grid; place-content: center; justify-items: center; gap: 1rem;
+  background: var(--dark); color: var(--on-dark-soft);
+  transition: opacity 500ms;
+}
+.boot.is-gone { opacity: 0; pointer-events: none; }
+.boot i {
+  width: 1px; height: 4rem; transform-origin: top;
+  background: linear-gradient(var(--gold-lit), transparent);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scaleY(0.2); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+.boot__fail { max-width: 30ch; text-align: center; font-size: 0.85rem; padding-inline: 1.5rem; }
+
+.lightbox {
+  width: 100%; max-width: 100%; height: 100%; max-height: 100%;
+  margin: 0; padding: 0; border: 0;
+  background: var(--dark); color: var(--on-dark);
+}
+.lightbox::backdrop { background: rgba(20, 17, 14, 0.94); }
+.lightbox[open] { display: grid; grid-template-rows: auto 1fr auto; }
+.lightbox__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: max(0.6rem, env(safe-area-inset-top, 0px)) 0.9rem 0.6rem;
+  font-size: 0.82rem; color: var(--on-dark-soft); font-variant-numeric: tabular-nums;
+}
+.lightbox__close {
+  display: grid; place-items: center; width: var(--tap); height: var(--tap);
+  border: 1px solid color-mix(in oklab, var(--on-dark) 30%, transparent);
+  background: transparent; color: inherit; font-size: 1.3rem; cursor: pointer;
+}
+.lightbox__stage { display: grid; place-items: center; min-height: 0; padding-inline: 0.75rem; }
+.lightbox__stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.lightbox__foot {
+  display: grid; gap: 0.75rem;
+  padding: 0.9rem 0.9rem calc(0.9rem + env(safe-area-inset-bottom, 0px));
+}
+.lightbox__caption { color: var(--on-dark-soft); font-size: 0.85rem; }
+.lightbox__nav { display: flex; gap: 0.5rem; }
+.lightbox__nav .btn { flex: 1 1 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+
+@media print {
+  .hero__media, .scroll, .countdown, .actions, #rsvp, .lightbox, .boot, .grid, .skip-link { display: none !important; }
+  body, .band--dark, .foot, .hero { background: #fff !important; color: #000 !important; }
+  .hero { min-height: 0; }
+}
